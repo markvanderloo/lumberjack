@@ -24,6 +24,7 @@
 #' @docType package
 #' @name lumberjack
 #' @importFrom R6 R6Class
+#' @importFrom utils capture.output
 #' 
 {}
 
@@ -70,7 +71,7 @@ remove_log <- function(data){
 #' @param stop stop logging after the dump?
 #' @param ... Arguments past to the \code{dump} method of the logger.
 #'
-#' @value The data, invisibly
+#' @return  The data, invisibly
 #' 
 #' @export
 dump_log <- function(data, stop=FALSE, ...){
@@ -125,7 +126,7 @@ stop_log <- function(data, ...){
   # basic pipe action
   rhs <- substitute(rhs)
   
-  # need to pass environment so symbols defined there, and passed
+  # need to pass environment so symbols defined there and passed
   # as argument can be resolved in NSE situations (see test_simple
   # for an example).
   out <- pipe(lhs, rhs, env=parent.frame())

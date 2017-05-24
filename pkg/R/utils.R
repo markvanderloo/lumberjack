@@ -33,7 +33,7 @@ pipe <- function(x, y, env=sys.parent()){
   if ( class(y) == "call" ){
     L <- as.list(y)
     args <- append(list(x), L[-1])
-    for (i in seq_along(args)){
+    for (i in seq_along(args)[-1]){
       args[[i]] <- eval(args[[i]],envir=env)
     } 
     # deparse-parse-eval to resolve possible ::
