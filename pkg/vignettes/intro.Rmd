@@ -1,0 +1,92 @@
+---
+title: "Getting started with lumberjack"
+author: "Mark van der Loo"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc : true
+vignette: >
+  %\VignetteIndexEntry{Getting started with lumberjack}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+library(lumberjack)
+```
+
+This package allows you to monitor changes in your data as they get processed. For
+this purpose it defines a few functions to start and stop logging, and the `lumberjack`:
+an operator that logs.
+
+
+### Installation
+
+The basic version can be installed with
+```{r,eval=FALSE}
+install.packages("lumberjack")
+```
+This gives you basic logging functionality and is sufficient to apply your home-brewn loggers. If you want to use more advanced loggers that come with the
+package, use
+```{r, eval=FALSE}
+install.packages("lumberjack", dependencies = TRUE)
+```
+This also installs the suggested packages and their dependencies when needed.
+
+### The lumberjack workflow
+So you want to know who does what to your data as it flows through your
+process. Here's the workflow that allows you to do it using the `lumberjack`
+package. 
+```{r}
+out <- women %>>%
+  start_log() %>>%
+  identity() %>>%
+  head() %>>%
+  dump_log(stop=TRUE)
+read.csv("simple_log.csv")
+```
+Lets go through this step by step to see what happened. The start of the script 
+defines an output varaiable `out` and passes `women` to the lumberjack (`%>>%`).
+Next, the function `start_log` makes sure that logging starts from there. We are
+now ready to start performing logged transformations on our dataset. First, we 
+apply the `identity` function, which does exactly nothing. Then, the `head` 
+function selects the first six rows in of the dataset and `dump_log(stop=TRUE)`
+writes the log to a csv file, which we then read in. The optional argument 
+`stop=TRUE` signals that no logging is necessary for following activities.
+
+The resulting data frame contains a step number, a timestamp, the expression 
+evaluated to transform the data, and an indicator wheter the data had changed at
+all. As expected, the `identity` function hasn't changed anything and the
+`head` function cuts of all records below the sixth row.
+
+
+You have now seen the most important functions of the package. Let's summarize them.
+
+- `start_log(data, log)`: start logging using possibly a custom logger (see next section)
+- `%>>%`: the lumberjack. a logging-aware function composition operator ('pipe').
+- `dump_log(data, stop, ...)`: dump the log for `data` (if present)
+- `stop_log(data)`: stop logging.
+
+All these functions are data-in, data-out. You are probably used to this from 
+using [dplyr](http://dplyr.tidyverse.org/) or one of its siblings. However, the 
+`lumberjack` functions are not limited to `data.frame`-like objects. In
+principle, changes to any object type can be logged, but it depends on the
+logger whether that will actually work.
+
+
+### Changing the way things are logged
+
+The `start_log` function adds a logging object as an attribute to its input data.
+By default, this is the `simple` logger, which only checks whether data has
+changed at all.
+
+
+
+
+### Properties of the lumberjack
+
+
+### A comparison with other pipe operators
+
+
+
