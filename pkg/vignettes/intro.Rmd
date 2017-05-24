@@ -15,25 +15,19 @@ vignette: >
 library(lumberjack)
 ```
 
-This package allows you to monitor changes in your data as they get processed. For
-this purpose it defines a few functions to start and stop logging, and the `lumberjack`:
-an operator that logs.
+This package allows you to monitor changes in data as they get processed. For
+this purpose it defines a few functions to signal what to log and when to stop.
+Centrally, it defines the `lumberjack`: a 'pipe' operator that logs.
 
 
-### Installation
+## Installation
 
 The basic version can be installed with
 ```{r,eval=FALSE}
 install.packages("lumberjack")
 ```
-This gives you basic logging functionality and is sufficient to apply your home-brewn loggers. If you want to use more advanced loggers that come with the
-package, use
-```{r, eval=FALSE}
-install.packages("lumberjack", dependencies = TRUE)
-```
-This also installs the suggested packages and their dependencies when needed.
 
-### The lumberjack workflow
+## The lumberjack workflow
 So you want to know who does what to your data as it flows through your
 process. Here's the workflow that allows you to do it using the `lumberjack`
 package. 
@@ -73,20 +67,55 @@ using [dplyr](http://dplyr.tidyverse.org/) or one of its siblings. However, the
 principle, changes to any object type can be logged, but it depends on the
 logger whether that will actually work.
 
-
-### Changing the way things are logged
-
-The `start_log` function adds a logging object as an attribute to its input data.
-By default, this is the `simple` logger, which only checks whether data has
-changed at all.
+## Changing the logger
 
 
+## Changing logger behaviour
+There are two ways to change how a logge behaves. By setting options
+at initialization and by setting options when dumping a log.
 
 
-### Properties of the lumberjack
+### Setting options for the logger
+
+The `start_log` function adds a logging object as an attribute to its input 
+data. By default, this is the `simple` logger, which only checks whether data 
+has changed at all. The behaviour of this logger can be changed by 
+passing options when it is created. To see this, have a look at the complete
+call, as it is executed by default.
+```{r}
+dat <- start_log(women, log = simple$new())
+```
+The expression `simple$new()` creates a new logging object, and `start_log`
+makes sure it is attached as an attribute to the copy of the `women` dataset
+stored in `dat`. The simple logger has one option called `verbose`, that can be set when calling `$new`. The default is `TRUE`, here we set it to `FALSE`.
+```{r}
+dat <- start_log(women, log=simple$new(verbose=FALSE))
+```
+The effect is that no message is printed when the log is dumped to file.
+```{r}
+out <- dat %>>% identity() %>>% dump_log()
+read.csv("simple_log.csv")
+```
+
+Note that the available options depend logger you use.
+
+### Setting options for the output
+
+For the simple logger, the default output file is `simple_log.csv` This can be
+changed when calling `dump_log`. 
+```{r}
+out <- dat %>>% identity() %>>% dump_log(file="log_all_day.csv")
+read.csv("log_all_day.csv")
+```
+In fact, `dump_log`  accepts any option that is accepted by `write.csv`, (except
+`row.names`).
 
 
-### A comparison with other pipe operators
+
+## Properties of the lumberjack
+
+
+## A comparison with other pipe operators
 
 
 
