@@ -1,5 +1,6 @@
 # Implementation of the simple logger.
 
+
 #' The simple logger.
 #' 
 #' The simple logger registers the name of the function
@@ -23,7 +24,7 @@ simple <- R6Class("simple"
       self$n <- self$n + 1
       logname <- sprintf("step%03d",self$n)
         logdat <- data.frame(step = self$n, time = Sys.time()
-                   , fun  = meta[[1]]
+                   , expr  = meta$src
                    , changed = !identical(input, output)
                    , stringsAsFactors = FALSE) 
       self$store[[logname]] <- logdat

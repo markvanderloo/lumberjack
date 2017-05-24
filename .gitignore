@@ -16,10 +16,11 @@
 
 # RStudio files
 .Rproj.user/
+*.Rproj
 
 # produced vignettes
-vignettes/*.html
-vignettes/*.pdf
+pkg/vignettes/*.html
+pkg/vignettes/*.pdf
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
@@ -32,3 +33,13 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Rproj.user
+
+# Files created by roxygen
+pkg/man/*
+
+# other files I frequently generate
+manual.pdf
+README.html
+*.csv
+output/*
+

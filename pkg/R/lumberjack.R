@@ -1,17 +1,30 @@
-#' lumberjack
+#' The pipe operator that smokes!
 #' 
 #' 
+#' 
+#' @section Overview:
+#' 
+#' The lumberjack operator \code{\%>>\%} behaves much like other function
+#' composition operators available in R (e.g. \href{https://CRAN.R-project.org/package=magrittr}{magrittr}
+#' , \href{https://github.com/piccolbo/yapo}{yapo}, \href{https://CRAN.R-project.org/package=pipeR}{pipeR})
+#' with one exception: it allows for logging the changes made to the data
+#' by the functions acting on it.
+#' 
+#' The actual logging mechanism is completely flexible and extensible. Users
+#' can create loggers that store information locally, pump it to a database,
+#' or send it as an e-mail to their bosses. The limit is your imagination. This
+#' package comes with a few predefined relatively simple loggers that are already
+#' quite useful. They also serve as coded examples on how to use this package.
+#' 
+#' For more information, see the \href{../doc/intro.html}{Introductory vignette},
+#' or the \href{../doc/extending.html}{extending lumberjack} manual.
+#'
+#' Happy logging!
+#'
 #' @docType package
 #' @name lumberjack
-#' 
-#' @description 
-#' 
-#' A not-a-pipe operator that logs.
-#' 
-#'
 #' @importFrom R6 R6Class
-#' @importFrom magrittr %>%
-#'
+#' 
 {}
 
 
@@ -57,11 +70,13 @@ remove_log <- function(data){
 #' @param stop stop logging after the dump?
 #' @param ... Arguments past to the \code{dump} method of the logger.
 #'
+#' @value The data, invisibly
+#' 
 #' @export
 dump_log <- function(data, stop=FALSE, ...){
   log <- get_log(data)
   log$dump(...)
-  if (stop) remove_log(data) else data
+  if (stop) invisible(remove_log(data)) else invisible(data)
 }
 
 #' Stop logging
@@ -109,9 +124,16 @@ stop_log <- function(data, ...){
 `%>>%` <- function(lhs, rhs){
   # basic pipe action
   rhs <- substitute(rhs)
-  out <- pipe(lhs, rhs)
   
-  meta <- lapply(as.list(rhs),deparse)
+  # need to pass environment so symbols defined there, and passed
+  # as argument can be resolved in NSE situations (see test_simple
+  # for an example).
+  out <- pipe(lhs, rhs, env=parent.frame())
+  
+  meta <- list(
+    expr = as.expression(rhs)
+    , src = as.character(as.expression(rhs))
+  )
   # update logging if set
   if ( has_log(lhs) ){
     log <- get_log(lhs)

@@ -2,8 +2,8 @@
 
 export("%>>%")
 export(dump_log)
+export(get_log)
 export(simple)
 export(start_log)
 export(stop_log)
 importFrom(R6,R6Class)
-importFrom(magrittr,"%>%")
