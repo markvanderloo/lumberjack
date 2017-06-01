@@ -29,6 +29,7 @@ test_that("The actual pipe function",{
   expect_identical(1:3 %>>% mean(), mean(1:3))
   g <- 1:3
   expect_identical(g %>>% mean(), mean(1:3))
+  expect_error(g %>>% mean(.))
   
 })
 

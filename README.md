@@ -1,4 +1,8 @@
-## lumberjack -- the pipe that smokes!
+## lumberjack -- the pipe operator that logs
+[![Build Status](https://travis-ci.org/data-cleaning/lumberjack.svg?branch=master)](https://travis-ci.org/data-cleaning/lumberjack)
+[![Coverage Status](https://coveralls.io/repos/data-cleaning/lumberjack/badge.svg?branch=master&service=github)](https://coveralls.io/github/data-cleaning/lumberjack?branch=master)
+[![CRAN](http://www.r-pkg.org/badges/version/lumberjack)](http://cran.r-project.org/package=lumberjack/)
+[![Downloads](http://cranlogs.r-pkg.org/badges/lumberjack)](http://www.r-pkg.org/pkg/lumberjack) 
 
 
 
