@@ -119,7 +119,8 @@ celldiff <- function(x, y, key=NULL){
   A <- which(changed,arr.ind=TRUE)
   found_names <- names(x)[x_found]
   rows <- if(is.null(key)) A[,1] else x[A[,1],key]
-  data.frame(
+  # changed cells
+  out <- data.frame(
     row = rows
     , col = found_names[A[,2]]
     , old = as.character(x[x_found][changed])
@@ -127,5 +128,8 @@ celldiff <- function(x, y, key=NULL){
     , stringsAsFactors = FALSE
   )
 }
+
+
+
 
 

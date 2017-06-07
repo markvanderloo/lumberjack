@@ -7,5 +7,4 @@ test_that("cellwise logging",{
    i2 <- i2 %>>% {.$Sepal.Length <- .$Sepal.Length*2; .}  
    i2 <- dump_log(i2, file=logfile, stop=TRUE) 
    expect_equal(nrow(read.csv(logfile)),nrow(iris))
-  
 })
