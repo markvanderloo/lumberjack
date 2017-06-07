@@ -3,14 +3,33 @@
 
 #' The simple logger.
 #' 
-#' The simple logger registers the name of the function
+#' The simple logger registers the expression
 #' applied to an object; a \code{POSIXct} timestamp and
 #' a logical indicating whether the input is identical to the
 #' output.
 #' 
+#' @section Creating a logger:
+#' 
+#' \code{simple$new(verbose=TRUE)}
+#' \tabular{ll}{
+#'   \code{verbose}\tab toggle verbosity
+#' }
+#' 
+#' @section Dump options: 
+#' 
+#' \code{$dump(file="simple_log.csv",...)}
+#' \tabular{ll}{
+#' \code{file}\tab filename or \code{\link[base]{connection}} to write output to.\cr
+#' \code{...}\tab extra options passed to \code{\link[utils]{write.csv}}, except
+#' \code{row.names}, which is set to \code{FALSE}.\cr
+#' }
+#' 
 #' @docType class
 #' @format An \code{R6} class object.
 #' 
+#' @example ../examples/simple.R
+#' 
+#' @family loggers
 #' @export
 simple <- R6Class("simple"
   , public=list(
@@ -26,7 +45,7 @@ simple <- R6Class("simple"
       self$n <- self$n + 1
       logname <- sprintf("step%03d",self$n)
         logdat <- data.frame(step = self$n, time = Sys.time()
-                   , expr  = meta$src
+                   , expression  = meta$src
                    , changed = !identical(input, output)
                    , stringsAsFactors = FALSE) 
       self$store[[logname]] <- logdat

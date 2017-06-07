@@ -1,23 +1,23 @@
-#' The pipe operator that smokes!
+#' The pipe operator that logs
+#' 
 #' 
 #' 
 #' 
 #' @section Overview:
 #' 
-#' The lumberjack operator \code{\%>>\%} behaves much like other function
-#' composition operators available in R (e.g. \href{https://CRAN.R-project.org/package=magrittr}{magrittr}
+#' The lumberjack \code{\%>>\%} behaves much like other function
+#' composition ('pipe') operators available in R (e.g. \href{https://CRAN.R-project.org/package=magrittr}{magrittr}
 #' , \href{https://github.com/piccolbo/yapo}{yapo}, \href{https://CRAN.R-project.org/package=pipeR}{pipeR})
 #' with one exception: it allows for logging the changes made to the data
 #' by the functions acting on it.
 #' 
-#' The actual logging mechanism is completely flexible and extensible. Users
-#' can create loggers that store information locally, pump it to a database,
-#' or send it as an e-mail to their bosses. The limit is your imagination. This
-#' package comes with a few predefined relatively simple loggers that are already
-#' quite useful. They also serve as coded examples on how to use this package.
+#' The actual logging mechanism is completely flexible and extensible. This
+#' package comes with a few predefined loggers, but users and package authors
+#' can write their own logger that follows the lumberjack API.
 #' 
-#' For more information, see the \href{../doc/intro.html}{Introductory vignette},
-#' or the \href{../doc/extending.html}{extending lumberjack} manual.
+#' See the \href{../doc/intro.html}{Introductory vignette} to start logging
+#' or the \href{../doc/extending.html}{extending lumberjack} manual to start 
+#' writing your own loggers.
 #'
 #' Happy logging!
 #'
