@@ -17,7 +17,8 @@ replace <- function(call, match, sub){
     } else {
       return(call)
     }
-  } else {
+    # Skip formulas. We treat them as literals.
+  } else if (call[[1]] != "~") {
     for ( i in seq_along(call)[-1] ){
       call[[i]] <- replace(call[[i]], match, sub)
     }
