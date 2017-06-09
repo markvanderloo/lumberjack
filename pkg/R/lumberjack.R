@@ -104,36 +104,36 @@ stop_log <- function(data, ...){
 #' 
 #' @section Piping:
 #' 
-#' The lumberjack operator behaves as a simplified version of the
+#' The lumberjack operator behaves more or less as a simplified version of the 
 #' \code{magrittr} pipe operator. The basic behavior of \code{lhs \%>>\% rhs} is
 #' the following:
 #'
 #'\itemize{
-#'  \item{If the right-hand-side (rhs) is a function, the its first argument
-#'    will be the left-hand-side (lhs). Also every variable named \code{.} will be
-#'    replaced with the \code{lhs}, except when they occur in a \code{formula}.}
-#'  \item{If the RHS is a statement of the form \code{{some expressions,
-#'    involving .}} or \code{(some expressions involving .)} then each \code{.}
-#'    (except in formulas) will be replaced with LHS and the expression will be
-#'    evaluated.}
+#'  \item{If the \code{rhs} uses dot-variables (\code{.}), these are interpreted
+#'  as the left-hand side, except in formulas where they already have a special 
+#'  meaning.}
+#'  \item{If the \code{rhs} is a function call, with no dot-variables used, the
+#'  \code{lhs} is used as its first argument.}
 #' }
 #' The most notable differences with `magrittr` are the following.
 #' \itemize{
 #'   \item{ it does not allow you to define functions in the magrittr style,
-#'   like \code{a <- . \%>\% sin(.)}}
+#'   like \code{a <- . \%>\% sin(.) } 
+#'   }
 #'   \item{there is no assignment-pipe like \code{\%<>\%}.}
 #' }
 #' 
 #' 
 #' @section Logging:
 #' 
-#' If the left-hand-side is logged, the lumberjack will update the 
-#' log by calling the logger's \code{add()} method, with arguments
-#' \code{meta}, \code{input}, \code{output}. Here, \code{meta} is
-#' a list with information on the operations performed, and
-#' input and output are the left-hand-side and the result, respectively 
-#' (See also: \href{../doc/extending.html}{extending lumberjack}).
+#' If the left-hand-side is tagged for logging, the lumberjack will update the 
+#' log by calling the logger's \code{$add()} method, with arguments \code{meta},
+#' \code{input}, \code{output}. Here, \code{meta} is a list with information on
+#' the operations performed, and input and output are the left-hand-side and the
+#' result, respectively (See also: \href{../doc/extending.html}{extending
+#' lumberjack}).
 #' 
+#' @example ../examples/lumberjack.R
 #' 
 #' @export 
 `%>>%` <- function(lhs, rhs){

@@ -1,7 +1,7 @@
 Package: lumberjack
 Maintainer: Mark van der Loo <mark.vanderloo@gmail.com>
 License: GPL-3
-Title: The Not-A-Pipe Operator that Logs
+Title: The not-a-Pipe Operator that Logs
 LazyData: no
 Type: Package
 LazyLoad: yes

@@ -1,5 +1,5 @@
 ---
-title: "Extending lumberjack with new loggers"
+title: "Extending lumberjack"
 author: "Mark van der Loo"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,9 +9,188 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+There are many ways one may want to register changes in data.
+That is why `lumberjack` allows you to write your own loggers. Here, you can
+read how to do it.
+
 ## The lumberjack logging API
 
+A logger is a reference object wich must have the following methods:
+
+1. `$add(meta, input, output)`. This is a function that adds computes the
+difference between `input` and `output` and adds it to a log. The `meta`
+argument is a `list` with two elements:
+    - `expr` The expression used to turn `input` into `output`
+    - `src` The same expression, but turned into a string.
+2. `$dump()` This function writes dumps the current logging info somewhere.
+Often this will be a file, but it is completely flexible.
+
+There are several systems in R to build such reference object. We recommend
+using [R6](https://cran.r-project.org/package=R6) classes or 
+[Reference classes](http://adv-r.had.co.nz/R5.html).
+
+Below we give an example in each system. The example loggers only register 
+whether something has ever changed. A `dump` results in a simple message on
+screen.
+
+
+### R6 classes
+An introduction to R6 classes can be found [here](https://cran.r-project.org/package=R6/vignettes/Introduction.html)
+
+Let us define the 'trivial' logger.
+```{r}
+library(R6)
+trivial <- R6Class("trivial",
+  public = list(
+    changed = NULL
+  , initialize = function(){
+      self$changed <- FALSE
+  }
+  , add = function(meta, input, output){
+    self$changed <- self$changed | !identical(input, output)
+  }
+  , dump = function(){
+    msg <- if(self$changed) "" else "not "
+    cat(sprintf("The data has %schanged\n",msg))
+  }
+  )
+)
+```
+Here is how to use it.
+```{r}
+library(lumberjack)
+out <- women %>>% 
+  start_log(trivial$new()) %>>%
+  identity() %>>%
+  dump_log(stop=TRUE)
+
+
+out <- women %>>%
+  start_log(trivial$new()) %>>%
+  head() %>>%
+  dump_log(stop=TRUE)
+```
+
+### Reference classes
+Reference classes (RC) come with the R recommended `methods` package. 
+An introduction can be found [here](http://adv-r.had.co.nz/R5.html). Here is how
+to define the `trivial` logger as a reference class.
+```{r}
+library(methods)
+trivial <- setRefClass("trivial",
+  fields = list(
+    changed = "logical"
+  ),
+  methods = list(
+    initialize = function(){
+      .self$changed = FALSE
+    }
+    , add = function(meta, input, output){
+      .self$changed <- .self$changed | !identical(input,output)
+    }
+    , dump = function(){
+      msg <- if( .self$changed ) "" else "not "
+      cat(sprintf("The data has %schanged\n",msg))
+    }
+  )
+)
+```
+And here is how to use it.
+```{r}
+library(lumberjack)
+out <- women %>>% 
+  start_log(trivial()) %>>%
+  identity() %>>%
+  dump_log(stop=TRUE)
+
+
+out <- women %>>%
+  start_log(trivial()) %>>%
+  head() %>>%
+  dump_log(stop=TRUE)
+
+```
+
+Observe that there are subtle differences between R6 and Reference classes (RC).
+
+- In R6 the object is referred to with `self`, in RC this is done with `.self`.
+- An R6 object is initialized with `classname$new()`, an RC object is initialized with `classname()`. 
 
 ## Advice for package authors
+
+If you have a package that has interesting functionality that can be offered
+also inside a logger, you might consider exporting a logger object that works
+with `lumberjack`. To keep things uniform, we give the following advice.
+
+### Documenting logging objects.
+Most package authors use [roxygen2](https://cran.r-project.org/package=roxygen2) 
+to generate documentation. Below is an example of how to document the class
+and its methods. To show how to document arguments, we included and
+`allcaps` argument in the dump function.
+
+```
+#' The trivial logger.
+#' 
+#' The trivial logger only registers whether something has changed at all.
+#' A `dump` leads to an informative message on the console.
+#'
+#' @section Creating a logger:
+#' \code{trivial$new()}
+#' 
+#' @section Dump options:
+#' \code{$dump(allcaps)}
+#' \tabular{ll}{
+#'   \code{allcaps}\tab \code{[logical]} print message in capitals?
+#' }
+#' 
+#' 
+#' @docType class
+#' @format An \code{R6} class object.
+#' 
+#' @examples
+#' out <- women %>>%
+#'  start_log(trivial$new()) %>>%
+#'  head() %>>%
+#'  dump_log(stop=TRUE)
+#' 
+#'
+#' @export
+trivial <- R6Class("trivial",
+  public = list(
+    changed = NULL
+  , initialize = function(){
+      self$changed <- FALSE
+  }
+  , add = function(meta, input, output){
+    self$changed <- self$changed | !identical(input, output)
+  }
+  , dump = function(allcaps=FALSE){
+    msg <- if(self$changed) "" else "not "
+    msg <- sprintf("The data has %schanged\n",msg)
+    if (allcaps) msg <- toupper(msg)
+    cat(msg)
+  )
+)
+```
+
+
+### Adding lumberjack to the DESCRIPTION of your package
+
+Once you have exported a logger, it is a good idea to add the line
+```
+Enhances: lumberjack
+```
+To your `DESCRIPTION` file. It can then be found by other users via lumberjack's
+CRAN webpage.
+
+
+
+
+
+
+
+
+
+
 
 

@@ -9,7 +9,7 @@
 #' to a file connection. Upon dump, this file is closed, copied
 #' to a local file and reopened. The connection to the temporary 
 #' file is closed and destroyed when the logger is removed (using
-#' \code{\link{dump_log(stop=TRUE)}} or \code{\link{stop_log()}})
+#' \code{\link{dump_log}(stop=TRUE)} or \code{\link{stop_log}()}.
 #' 
 #' @section Creating a logger:
 #' \code{cellwise$new(verbose=TRUE, file=tempfile())}

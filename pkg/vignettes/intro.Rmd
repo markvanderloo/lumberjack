@@ -154,19 +154,19 @@ operator. Here are some examples.
 # pass arguments to a function
 1:3 %>>% mean()
 
+# pass arguments using "."
+TRUE %>>% mean(c(1,NA,3), na.rm = .)
+
 # pass arguments to an expression, using "."
 1:3 %>>% { 3 * .}
 
 # in a more complicated expression, return "." explicitly
 women %>>% { .$height <- 2*.$height; . }
-
 ```
 
-
-The main differences are that it does not allow you to define
-functions in `magrittr` style (`a <- . %>% sin(.)`). It
-- it does not allow you to define functions in the magrittr style `a <- . %>% sin(.)`
+The main differences are that 
 - there is no assignment-pipe like `%<>%`.
+- it does not allow you to define functions in the magrittr style: `a <- . %>% sin(.)`
 
 
 
