@@ -102,16 +102,30 @@ stop_log <- function(data, ...){
 #' @param rhs Function call or 'dotted' expression (see below). 
 #'     as value
 #' 
-#' @section: Definition of the piping action.
+#' @section Piping:
 #' 
-#' The left-hand-side of the lumberjac operator must be an R value (maybe
-#' resulting from a previous operation). There are two options for the right-hand-side.
-#' First, the right-hand-side can be a call
-#' to a function, where the first argument and any dot "\code{.}" will be 
-#' replaced with the left-hand-side argument. Second, the right-hand-side can
-#' be an expression, enclosed in brackets \code{()} or braces \code{{}}. The
-#' expression will be evaluated such that the dot is replaced by the 
-#' left-hand side.
+#' The lumberjack operator behaves as a simplified version of the
+#' \code{magrittr} pipe operator. The basic behavior of \code{lhs \%>>\% rhs} is
+#' the following:
+#'
+#'\itemize{
+#'  \item{If the right-hand-side (rhs) is a function, the its first argument
+#'    will be the left-hand-side (lhs). Also every variable named \code{.} will be
+#'    replaced with the \code{lhs}, except when they occur in a \code{formula}.}
+#'  \item{If the RHS is a statement of the form \code{{some expressions,
+#'    involving .}} or \code{(some expressions involving .)} then each \code{.}
+#'    (except in formulas) will be replaced with LHS and the expression will be
+#'    evaluated.}
+#' }
+#' The most notable differences with `magrittr` are the following.
+#' \itemize{
+#'   \item{ it does not allow you to define functions in the magrittr style,
+#'   like \code{a <- . \%>\% sin(.)}}
+#'   \item{there is no assignment-pipe like \code{\%<>\%}.}
+#' }
+#' 
+#' 
+#' @section Logging:
 #' 
 #' If the left-hand-side is logged, the lumberjack will update the 
 #' log by calling the logger's \code{add()} method, with arguments

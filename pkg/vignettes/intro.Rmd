@@ -15,9 +15,12 @@ vignette: >
 library(lumberjack)
 ```
 
-This package allows you to monitor changes in data as they get processed. For
-this purpose it defines a few functions to signal what to log and when to stop.
-Centrally, it defines the `lumberjack`: a 'pipe' operator that logs.
+This package allows you to monitor changes in data as they get processed. It
+implements an easy-to-use and extensible logging framework, and comes with a few
+data loggers implemented.
+
+This vignette will show you how to get started and what the default loggers do. The [extending lumberjack](extending.html) vignette explains how to build your own loggers.
+
 
 
 ## Installation
@@ -65,9 +68,27 @@ All these functions are data-in, data-out. You are probably used to this from
 using [dplyr](http://dplyr.tidyverse.org/) or one of its siblings. However, the 
 `lumberjack` functions are not limited to `data.frame`-like objects. In
 principle, changes to any object type can be logged, but it depends on the
-logger whether that will actually work.
+logger whether that will actually work -- most will expect a particular data
+structure.
 
 ## Changing the logger
+
+This is easy. For example, to use the builtin \code{cellwise} logger,
+we just tell \code{start_log()} what logger to use. For this logger,
+it is necessary to have a key column that identifies the rows uniquely.
+```{r}
+logfile <- tempfile(fileext = ".csv")
+women$a_key <- seq_len(nrow(women))
+out <- women %>>%
+  start_log( log = cellwise$new(key="a_key") ) %>>%
+  {.$height[1] <- 60; .} %>>%
+  head(13) %>>%
+  dump_log(file=logfile, stop=TRUE)
+
+read.csv(logfile)
+```
+
+
 
 
 ## Changing logger behaviour
@@ -110,12 +131,44 @@ read.csv("log_all_day.csv")
 In fact, `dump_log`  accepts any option that is accepted by `write.csv`, (except
 `row.names`).
 
+### Options for other loggers
 
+Loggers can come in different forms. In principle, authors are free to
+use R6 classes (as is done here), Reference classes, or anything else that
+follows the lumberjack API. This means that the way tha logging objects are
+initialized may vary from logger to logger. Check the documentation of a logger
+to see how to operate it. The loggers included with this package are can be
+found with `help('cellwise')` and `help('simple')`.
 
 ## Properties of the lumberjack
 
+There are several function composition ('pipe') operators in the R community, 
+including [magrittr](https://cran.r-project.org/package=magrittr), 
+[pipeR](https://cran.r-project.org/package=pipeR) and 
+[yapo](https://github.com/piccolbo/yapo). All have different behavior. 
 
-## A comparison with other pipe operators
+
+The  lumberjack operator behaves as a simplified version of the `magrittr` pipe
+operator. Here are some examples.
+```r
+# pass arguments to a function
+1:3 %>>% mean()
+
+# pass arguments to an expression, using "."
+1:3 %>>% { 3 * .}
+
+# in a more complicated expression, return "." explicitly
+women %>>% { .$height <- 2*.$height; . }
+
+```
+
+
+The main differences are that it does not allow you to define
+functions in `magrittr` style (`a <- . %>% sin(.)`). It
+- it does not allow you to define functions in the magrittr style `a <- . %>% sin(.)`
+- there is no assignment-pipe like `%<>%`.
+
+
 
 
 

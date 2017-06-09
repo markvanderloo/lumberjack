@@ -27,23 +27,27 @@ replace <- function(call, match, sub){
 }
 
 
-
 # the pipe action.
 pipe <- function(x, y, env=sys.parent()){
-  y <- replace(y, quote(.), quote(x))
+  
+  e <- new.env(parent=env)
+  e$. <- x
+  
   if ( class(y) == "call" ){
-    L <- as.list(y)
-    args <- append(list(x), L[-1])
-    for (i in seq_along(args)[-1]){
-      args[[i]] <- eval(args[[i]],envir=env)
-    } 
-    # deparse-parse-eval to resolve possible ::
-    fun <- eval(parse(text=deparse(L[[1]])))
-    do.call(fun,args)
-  } else if (class(y) %in% c("(","{")) {
-    e <- new.env()
-    e$x <- x
-    eval(y, envir=e)
+    y1 <- replace(y, quote(.), quote(x))
+    uses_dot <- !identical(y,y1)
+
+    if (uses_dot){
+      eval(y, envir=e)
+    } else {
+      w <- as.list(y1)
+      y1 <- as.call(c(w[1],quote(.),w[-1]))
+      eval(y1, envir=e)
+    }
+  } else {
+    eval(y, envir = e)
   }
+     
+    
 }
 

@@ -1,5 +1,4 @@
 
-library(testthat)
 
 context("NSE helper functions")
 test_that("symbol replacement works",{
@@ -19,18 +18,27 @@ test_that("symbol replacement works",{
 
 context("The pipe")
 
-test_that("the basic pipe function",{
-  expect_identical(pipe(3, expression({ 2*. })[[1]]), 6)
-  expect_identical(pipe(3, expression(( 2*. ))[[1]]), 6)
-  expect_identical(pipe(3, expression(sum())[[1]]), 3)
-})
 
-test_that("The actual pipe function",{
+test_that("The pipe function",{
   expect_identical(1:3 %>>% mean(), mean(1:3))
+  expect_identical(1:3 %>>% mean(na.rm=TRUE), mean(1:3, na.rm=TRUE))
+  expect_identical(1:3 %>>% mean(.), 2)
+  expect_identical(1:3 %>>% mean(.,na.rm=TRUE), 2)
   g <- 1:3
-  expect_identical(g %>>% mean(), mean(1:3))
-  expect_error(g %>>% mean(.))
+  expect_identical(g %>>% mean(), mean(g))
   
+  expect_identical( 3 %>>% {2 * .}, 6)
+  expect_identical( 3 %>>% (2 * .), 6)  
+  expect_identical(
+    mean(c(1,NA,3),na.rm=TRUE)
+    , TRUE %>>% mean(c(1,NA,3),na.rm=.)
+    
+  )
+  
+  expect_equal(
+    coefficients(lm(height ~ weight,data=women)) 
+    , women %>>% lm(height ~ weight, data=.) %>>% coefficients()
+  )
 })
 
 

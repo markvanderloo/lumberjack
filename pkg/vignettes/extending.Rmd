@@ -1,5 +1,5 @@
 ---
-title: "Adding your own loggers"
+title: "Extending lumberjack with new loggers"
 author: "Mark van der Loo"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,4 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-TODO
+## The lumberjack logging API
+
+
+## Advice for package authors
+
+

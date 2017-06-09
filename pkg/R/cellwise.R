@@ -6,21 +6,25 @@
 #' The cellwise logger registres the row, column, old, and new value
 #' of cells that changed, along with a step number, timestamp, and the
 #' expression used to alter a dataset. The log is initially written
-#' to a file connection. Upon dump, this file is closed and copied
-#' to a local file.
+#' to a file connection. Upon dump, this file is closed, copied
+#' to a local file and reopened. The connection to the temporary 
+#' file is closed and destroyed when the logger is removed (using
+#' \code{\link{dump_log(stop=TRUE)}} or \code{\link{stop_log()}})
 #' 
 #' @section Creating a logger:
 #' \code{cellwise$new(verbose=TRUE, file=tempfile())}
 #' \tabular{ll}{
 #' \code{verbose}\tab toggle verbosity\cr
-#' \code{file}\tab temporary file to write logs info to\cr
+#'  \code{key}\tab \code{[character|integer]} index to column that uniquely identifies a row.\cr
+#'   \code{verbose}\tab \code{[logical]} toggle verbosity.\cr
+#' \code{file}\tab [character] filename for temporaty log storage. \cr
 #' }
 #' 
 #' 
 #' @section Dump options:
-#' \code{$dump(file="cellwise.csv")}
+#' \code{$dump(key, verbose=TRUE, file="cellwise.csv")}
 #' \tabular{ll}{
-#'   \code{file}\tab file to write final output to.
+#'   \code{file}\tab \code{[character]} location to write final output to.
 #' }
 #' 
 #' @section Details:
@@ -81,7 +85,7 @@ cellwise <- R6Class("cellwise"
   }
   , dump = function(file="cellwise.csv"){
       self$con <- iclose(self$con) 
-      file.copy(from=self$tmpfile, to=file)
+      file.copy(from=self$tmpfile, to=file, overwrite = TRUE)
       if (self$verbose){
         msgf("Dumped a log at %s",file)
       }
