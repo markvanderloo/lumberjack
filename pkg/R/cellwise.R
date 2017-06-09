@@ -57,8 +57,8 @@ cellwise <- R6Class("cellwise"
           step=integer(0)
           , time=character(0)
           , expression=character(0)
-          , row=character(0)
-          , col=character(0)
+          , key=character(0)
+          , variable=character(0)
           , old=character(0)
           , new=character(0)
         )
@@ -70,8 +70,8 @@ cellwise <- R6Class("cellwise"
       self$n <- self$n+1
       # timestamp
       ts <- strftime(Sys.time(),usetz=TRUE)
-      d <- celldiff(input, output)
-      if (is.null(d)) return()
+      d <- celldiff(input, output, self$key)
+      if (nrow(d) == 0) return()
       d$step <- self$n
       d$time <- ts
       d$expression <- meta$src
