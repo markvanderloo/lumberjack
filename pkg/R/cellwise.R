@@ -40,15 +40,18 @@
 #' @export
 cellwise <- R6Class("cellwise"
   , public = list(
-    tmpfile = "character"
-    , con = NULL
-    , n = "numeric" 
-    , verbose = "logical"
-  , initialize = function(verbose=TRUE, file=tempfile()){
+    tmpfile   = NULL
+    , con     = NULL
+    , n       = NULL 
+    , verbose = NULL
+    , key     = NULL
+  , initialize = function(key, verbose=TRUE, file=tempfile()){
+      if(missing(key)) stop("you must provide a key")
       self$tmpfile = file
       self$con = file(self$tmpfile, open="wt")
       self$n <- 0
       self$verbose <- verbose
+      self$key <- key
       write.csv(
         data.frame(
           step=integer(0)
@@ -107,27 +110,35 @@ is_open <- function(con,...){
   !is.null(con) && isOpen(con)
 }
 
-celldiff <- function(x, y, key=NULL){
-  x_names <- names(x)
-  y_names <- names(y)
-  i_x <- match(x_names, y_names, nomatch=0)
-  x_found <- i_x > 0
-  no_x <- is.na(x[x_found])
-  no_y <- is.na(y[i_x])
-  changed <- (!(no_x|no_y)  &  y[i_x] != x[x_found]) | (no_x & !no_y) | (!no_x & no_y)
-  if (!any(changed)) return(NULL)
-  A <- which(changed,arr.ind=TRUE)
-  found_names <- names(x)[x_found]
-  rows <- if(is.null(key)) A[,1] else x[A[,1],key]
-  # changed cells
-  out <- data.frame(
-    row = rows
-    , col = found_names[A[,2]]
-    , old = as.character(x[x_found][changed])
-    , new = as.character(y[i_x][changed])
-    , stringsAsFactors = FALSE
-  )
+# a decent sort
+isort <- function(x, by,...){
+  x[do.call("order",x[by]),,drop=FALSE]
 }
+
+cc <- function(x,y) c(as.character(x), as.character(y))
+
+mpaste <- function(...) paste(...,sep=".@.")
+
+# send x to long format, values as character.
+keyframe <- function(x, key){
+  col_x <- names(x)[names(x) != key]
+  kf <- expand.grid(key=x[,key],variable=col_x)
+  kf$value <- Reduce(cc, x[col_x])
+  isort(kf, c("key","variable"))
+}
+
+celldiff <- function(x,y,key){
+  kx <- keyframe(x,key)
+  ky <- keyframe(y,key)
+  kxy <- merge(kx,ky,by=c("key","variable"), all=TRUE)
+  na_x <- is.na(kxy$value.x)
+  na_y <- is.na(kxy$value.y)
+  d_xy <- (na_x & !na_y) | (!na_x & na_y) | 
+      (!na_x & !na_y & kxy$value.x != kxy$value.y)
+  kxy[d_xy,]
+}
+
+
 
 
 
