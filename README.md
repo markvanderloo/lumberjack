@@ -13,14 +13,9 @@ that allows for easy logging of changes in data.
 
 ### Installation
 
-Its under development, but you can clone this repo and build and install the
-package from your local shell.
 
 ```
-git clone https://github.com/markvanderloo/lumberjack.git
-cd lumberjack
-./build.sh
-R CMD INSTALL lumberjack_*.tar.gz
+install.packages('lumberjack')
 ```
 
 ### Usage
@@ -48,7 +43,7 @@ Dumped a log at /home/mark/projects/lumberjack/simple_log.csv
 > 
 > # the log is here:
 > read.csv("simple_log.csv")
-  step                time       expr changed
+  step                time expression changed
 1    1 2017-06-01 12:08:03 identity()   FALSE
 2    2 2017-06-01 12:08:03     head()    TRUE
 ```
