@@ -9,6 +9,9 @@
 A function composition operator ('pipe') and extensible framework
 that allows for easy logging of changes in data.
 
+[![asciicast](https://asciinema.org/a/14.png)](https://asciinema.org/a/5wbyzkgvrif4884n41gmstjg0)
+
+
 ### Installation
 
 Its under development, but you can clone this repo and build and install the
