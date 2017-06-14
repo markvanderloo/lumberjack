@@ -1,18 +1,18 @@
 Package: lumberjack
 Maintainer: Mark van der Loo <mark.vanderloo@gmail.com>
 License: GPL-3
-Title: The not-a-Pipe Operator that Logs
+Title: Track Changes in Data the Tidy Way
 LazyData: no
 Type: Package
 LazyLoad: yes
 Authors@R: person("Mark", "van der Loo", role=c("aut","cre"),email="mark.vanderloo@gmail.com")
 Description: A function composition ('pipe') operator and extensible 
     framework that allows for easy logging of changes in data.
-Version: 0.0.1
+Version: 0.1.0
 URL: https://github.com/markvanderloo/lumberjack
 BugReports: https://github.com/markvanderloo/lumberjack/issues
 Imports: utils, R6
-Date: 2017-06-09
+Date: 2017-06-14
 Suggests:
     testthat,
     knitr,
