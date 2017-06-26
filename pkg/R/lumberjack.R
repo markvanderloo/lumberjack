@@ -153,6 +153,9 @@ stop_log <- function(data, ...){
   if ( has_log(lhs) ){
     log <- get_log(lhs)
     log$add(meta=meta, input=lhs, output=out)
+    if( !has_log(out)){
+      attr(out, LOGNAME) <- log
+    }
   }
   
   out
