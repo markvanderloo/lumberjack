@@ -74,7 +74,7 @@ remove_log <- function(data){
 #' @return  The data, invisibly
 #' 
 #' @export
-dump_log <- function(data, stop=FALSE, ...){
+dump_log <- function(data, stop=TRUE, ...){
   log <- get_log(data)
   log$dump(...)
   if (stop) invisible(remove_log(data)) else invisible(data)
