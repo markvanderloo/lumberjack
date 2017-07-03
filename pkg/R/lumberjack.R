@@ -104,13 +104,17 @@ stop_log <- function(data, ...){
 #' 
 #' @section Piping:
 #' 
+#' The operators \code{\%>>\%} and \code{\%L>\%} are synonyms. The \code{\%L>\%}
+#' can be used to avoid confusion with the \code{\%>>\%} operator of the
+#' \code{pipeR} package.
+#' 
 #' The lumberjack operator behaves more or less as a simplified version of the 
 #' \code{magrittr} pipe operator. The basic behavior of \code{lhs \%>>\% rhs} is
 #' the following:
 #'
 #'\itemize{
 #'  \item{If the \code{rhs} uses dot-variables (\code{.}), these are interpreted
-#'  as the left-hand side, except in formulas where they already have a special 
+#'  as the left-hand side, except in formulas where dots already have a special 
 #'  meaning.}
 #'  \item{If the \code{rhs} is a function call, with no dot-variables used, the
 #'  \code{lhs} is used as its first argument.}
@@ -157,5 +161,9 @@ stop_log <- function(data, ...){
   
   out
 }
+
+
+#' @rdname grapes-greater-than-greater-than-grapes
+`%L>%` <- `%>>%`
 
 
