@@ -2,7 +2,9 @@
 title: "Extending lumberjack"
 author: "Mark van der Loo"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Adding your own loggers}
   %\VignetteEngine{knitr::rmarkdown}
@@ -183,9 +185,22 @@ Enhances: lumberjack
 To your `DESCRIPTION` file. It can then be found by other users via lumberjack's
 CRAN webpage.
 
+## API overview
 
+We briefly summarize the lumberjack API.
 
+If you implement a logging object, the following methods are **mandatory**:
 
+- `add(meta, input, output)`
+    - `meta`: a list with components `expr` (an expression) and `src` (a string)
+    - `input`: data before processing
+    - `output`: data after processing
+- `dump(...)` 
+    - `...`: options to pass to other methods.
+
+The following methods are **optional**
+
+- `stop()` called by `stop_log()` before removing the logger from the data.
 
 
 
