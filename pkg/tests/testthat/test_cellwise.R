@@ -25,5 +25,11 @@ test_that("cellwise",{
   d2 <- d1
   d2[1,2] <- 2
   expect_equal(nrow(celldiff(d1,d2,"sl")),1)
+
+  iris$id <- seq_len(nrow(iris))
+  xx <- cellwise$new(key="id")
+  iris %>>% start_log(xx) %>>% head(149L) %>>% stop_log()
+  d <- xx$logdata()
+  expect_equal(nrow(d),ncol(iris)-1L)
 })
 

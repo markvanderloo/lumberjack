@@ -10,3 +10,13 @@ out <- women %>>%
 
 read.csv(logfile) %>>% head()
 
+# work with an externally defined logger.
+iris$id <- seq_len(nrow(iris))
+logger <- cellwise$new(key="id")
+iris %>>% 
+  start_log(logger) %>>%
+  head() %>>%
+  stop_log()
+logger$logdata()
+
+

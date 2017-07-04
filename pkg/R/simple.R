@@ -24,6 +24,10 @@
 #' \code{row.names}, which is set to \code{FALSE}.\cr
 #' }
 #' 
+#' @section Get data:
+#' \code{$logdata()} Returns a \code{data.frame}.
+#' 
+#' 
 #' @docType class
 #' @format An \code{R6} class object.
 #' 
@@ -57,5 +61,14 @@ simple <- R6Class("simple"
         if (is.character(file) && self$verbose ){
           msgf("Dumped a log at %s", normalizePath(file))
         }
+    }
+    , logdata = function(){
+        v <- self$verbose
+        self$verbose <- FALSE
+        fl <- tempfile()
+        self$dump(file=fl)
+        out <- read.csv(fl)
+        self$verbose <- v
+        out
     }
 ))

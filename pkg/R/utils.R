@@ -7,6 +7,11 @@ stopf <- function(fmt,...){
   stop(sprintf(fmt,...), call. = FALSE)
 }
 
+warnf <- function(fmt, ...){
+  warning(sprintf(fmt, ...), call.=FALSE)
+}
+
+
 # expression to character
 as_character <- function(x){
   paste0(capture.output(print(x[[1]])), collapse="\n")

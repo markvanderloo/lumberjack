@@ -12,7 +12,7 @@
 #' \code{\link{dump_log}(stop=TRUE)} or \code{\link{stop_log}()}.
 #' 
 #' @section Creating a logger:
-#' \code{cellwise$new(verbose=TRUE, file=tempfile())}
+#' \code{cellwise$new(verbose=TRUE, file=tempfile()}
 #' \tabular{ll}{
 #' \code{verbose}\tab toggle verbosity\cr
 #'  \code{key}\tab \code{[character|integer]} index to column that uniquely identifies a row.\cr
@@ -27,13 +27,18 @@
 #'   \code{file}\tab \code{[character]} location to write final output to.
 #' }
 #' 
+#' @section Getting data from the logger:
+#' 
+#' \code{$logdata()} Returns a data.frame (it dumps, then reads the current log).
+#' 
 #' @section Details:
-#' At initialization, the cellwise logger opens a connection to a temporary
-#' file. All logging info is written to that connection. When
+#' At initialization, the cellwise logger opens a connection to a temporary 
+#' file. All logging info is written to that connection. When 
 #' \code{\link{dump_log}} is called, the temporary file is closed, copied to the
 #' output file, and reopened for writing. The connection is closed automatically
 #' when the logger is destroyed, for example when calling 
-#' \code{dump_log(stop=TRUE)}, or \code{stop_log()} in the lumberjack pipeline.
+#' \code{dump_log(stop=TRUE)} (the default), or \code{stop_log()} in the
+#' lumberjack pipeline.
 #' 
 #' @docType class
 #' @format An \code{R6} class object.
@@ -49,7 +54,7 @@ cellwise <- R6Class("cellwise"
     , n       = NULL 
     , verbose = NULL
     , key     = NULL
-  , initialize = function(key, verbose=TRUE, file=tempfile()){
+  , initialize = function(key, verbose=TRUE, file=file.path(tempdir(),"cellwise.csv")){
       if(missing(key)) stop("you must provide a key")
       self$tmpfile = file
       self$con = file(self$tmpfile, open="wt")
@@ -70,7 +75,11 @@ cellwise <- R6Class("cellwise"
         , row.names=FALSE
       )
   }
+  , stop = function(...){
+       self$con <- iclose(self$con)
+  }
   , add = function(meta, input, output){
+      if (!is_open(self$con)) return()
       self$n <- self$n+1
       # timestamp
       ts <- strftime(Sys.time(),usetz=TRUE)
@@ -89,14 +98,16 @@ cellwise <- R6Class("cellwise"
       if (self$verbose){
         msgf("Dumped a log at %s",file)
       }
-      self$con <- file(self$tmpfile, open="wt")
   }
   , show = function(){
     state <- if ( is_open(self$con) ) "open" else "closed"
-    cat("\ncellwise logger with %s connection", state)
+    cat(sprintf("\ncellwise logger with %s connection", state))
   }
   , finalize = function(){
     if (is_open(self$con)) close(self$con)
+  }
+  , logdata = function(){
+     read.csv(self$tmpfile)
   }
   )
 )

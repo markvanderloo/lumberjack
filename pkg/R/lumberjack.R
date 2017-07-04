@@ -82,11 +82,16 @@ dump_log <- function(data, stop=TRUE, ...){
 
 #' Stop logging
 #' 
+#' Calls the logger's \code{$stop()} method if it exists, and removes
+#' the logger as attribute from \code{data}.
+#' 
 #' @param data An R object carrying data
-#' @param ... currently unused
+#' @param ... Passed to the logger's \code{stop} method, if it exists.
 #' 
 #' @export
 stop_log <- function(data, ...){
+  logger <- get_log(data)
+  if (is.function(logger$stop)) logger$stop(...)
   remove_log(data)
 }
 
