@@ -99,10 +99,6 @@ cellwise <- R6Class("cellwise"
         msgf("Dumped a log at %s",file)
       }
   }
-  , show = function(){
-    state <- if ( is_open(self$con) ) "open" else "closed"
-    cat(sprintf("\ncellwise logger with %s connection", state))
-  }
   , finalize = function(){
     if (is_open(self$con)) close(self$con)
   }

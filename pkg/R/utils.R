@@ -12,10 +12,6 @@ warnf <- function(fmt, ...){
 }
 
 
-# expression to character
-as_character <- function(x){
-  paste0(capture.output(print(x[[1]])), collapse="\n")
-}
 
 
 replace <- function(call, match, sub){
