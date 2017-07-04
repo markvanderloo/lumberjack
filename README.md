@@ -54,5 +54,8 @@ The `start_log` function takes as its argument a logging object, which is a
 class implementing two methods: `$add` and `$dump`.  Other than that it is
 completely flexible and users can write their own loggers as desired.
 
+### Materials
 
-
+- A [blogpost](http://www.markvanderloo.eu/yaRb/2017/06/23/track-changes-in-data-with-the-lumberjack/) introducing the package
+- Get started with the [introductory vignette](https://cran.r-project.org/web/packages/lumberjack/vignettes/intro.html)
+- Write your own loggers: [extending lumberjack](https://cran.r-project.org/web/packages/lumberjack/vignettes/extending.html)
