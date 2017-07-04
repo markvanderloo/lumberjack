@@ -21,7 +21,7 @@
 #'   \code{...}\tab Currently unused.\cr
 #' }
 #' 
-#' @section Retrieve log data
+#' @section Retrieve log data:
 #'
 #' \code{$logdata()} returns a list of data frames, sorted in the order returned by
 #'  \code{base::dir()}
