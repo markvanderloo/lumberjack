@@ -1,6 +1,7 @@
 version 0.1.1
 - Added %L>% as synonym to avoid possible confusion with pipeR::`%>>%`
 - Argument 'stop' of 'dump_log' is now 'TRUE' by default (was 'FALSE')
+- New logger named 'filedump' dumps data versions to csv.
 
 version 0.1.0
 - initial release

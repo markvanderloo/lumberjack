@@ -3,6 +3,7 @@
 export("%>>%")
 export(cellwise)
 export(dump_log)
+export(filedump)
 export(get_log)
 export(simple)
 export(start_log)

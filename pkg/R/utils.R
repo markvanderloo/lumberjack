@@ -3,6 +3,9 @@ msgf <- function(fmt,...){
   message(sprintf(fmt,...))
 }
 
+stopf <- function(fmt,...){
+  stop(sprintf(fmt,...), call. = FALSE)
+}
 
 # expression to character
 as_character <- function(x){
