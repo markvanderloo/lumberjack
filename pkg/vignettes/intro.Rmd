@@ -25,7 +25,7 @@ This vignette will show you how to get started and what the default loggers do. 
 
 ## Installation
 
-The basic version can be installed with
+Install the package with
 ```{r,eval=FALSE}
 install.packages("lumberjack")
 ```
@@ -88,7 +88,22 @@ out <- women %>>%
 read.csv(logfile)
 ```
 
+## Available loggers
 
+Here's a short overview of known loggers.
+
+### In the lumberjack package
+
+- `simple` Just check whether data has changed.
+- `cellwise` Track changes per cell (incl. old value, new value)
+- `filedump` Dump a file after each step (including the zeroth step.)
+
+### In other packages
+
+- `validate::lbj_rules` Track changes in data quality measured by validation rules ([validate](https://CRAN.R-project.org/package=validate) version >= 0.2.0).
+- `validate::lbj_cells` Track changes in cell filling and cell counts ([validate](https://CRAN.R-project.org/package=validate) version >=0.2.0 ).
+
+See the [extending lumberjack](extending.html) vignette on how to build your own loggers.
 
 
 ## Changing logger behaviour
