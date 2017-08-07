@@ -6,7 +6,7 @@
 #' 
 #' @section Creating a logger:
 #' 
-#' \code{filedump$new(dir=file.path(tempdir(),"log"), prefix="step\%03d.csv", verbose=TRUE)}
+#' \code{filedump$new(dir=file.path(tempdir(),"timber"), prefix="step\%03d.csv", verbose=TRUE)}
 #' \tabular{ll}{
 #'   \code{dir}\tab Where to write the file dumps.\cr
 #'   \code{filename}\tab filename template, used with \code{\link{sprintf}} 
