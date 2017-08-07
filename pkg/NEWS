@@ -3,6 +3,7 @@ version 0.2.0
 - Argument 'stop' of 'dump_log' is now 'TRUE' by default (was 'FALSE')
 - New logger named 'filedump' dumps data versions to csv.
 - Function stop_log() will now call <logger>$stop() if defined.
+- Package now depends on R >= 3.4.0. Some tests failed on Windows/OSX + R3.3.3
 
 version 0.1.0
 - initial release

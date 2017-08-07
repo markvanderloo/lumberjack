@@ -13,6 +13,7 @@ URL: https://github.com/markvanderloo/lumberjack
 BugReports: https://github.com/markvanderloo/lumberjack/issues
 Imports: utils, R6
 Date: 2017-08-07
+Depends: R (>= 3.4.0)
 Suggests:
     testthat,
     knitr,
