@@ -169,6 +169,7 @@ stop_log <- function(data, ...){
 
 
 #' @rdname grapes-greater-than-greater-than-grapes
+#' @export
 `%L>%` <- `%>>%`
 
 
