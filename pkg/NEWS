@@ -1,3 +1,6 @@
+version 0.3.0
+- Added expression_logger: log custom expressions
+
 version 0.2.0
 - Added %L>% as synonym to avoid possible confusion with pipeR::`%>>%`
 - Argument 'stop' of 'dump_log' is now 'TRUE' by default (was 'FALSE')

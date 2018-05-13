@@ -8,7 +8,7 @@ LazyLoad: yes
 Authors@R: person("Mark", "van der Loo", role=c("aut","cre"),email="mark.vanderloo@gmail.com")
 Description: A function composition ('pipe') operator and extensible 
     framework that allows for easy logging of changes in data.
-Version: 0.2.0
+Version: 0.3.0
 URL: https://github.com/markvanderloo/lumberjack
 BugReports: https://github.com/markvanderloo/lumberjack/issues
 Imports: utils, R6
