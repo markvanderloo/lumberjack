@@ -163,7 +163,10 @@ stop_log <- function(data, ...){
     log <- get_log(lhs)
     log$add(meta=meta, input=lhs, output=out)
   }
-  
+  # if a naughty function has removed the log, we add it back.
+  if (has_log(lhs) && !has_log(out)){
+    attr(out,LOGNAME) <- log
+  }
   out
 }
 
