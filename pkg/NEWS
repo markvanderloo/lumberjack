@@ -1,5 +1,6 @@
 version 0.3.0
 - Added expression_logger: log custom expressions
+- Logging now also works for functions that remove the logging attribute.
 
 version 0.2.0
 - Added %L>% as synonym to avoid possible confusion with pipeR::`%>>%`

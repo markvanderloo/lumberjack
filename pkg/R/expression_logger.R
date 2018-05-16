@@ -9,11 +9,8 @@
 #' of variables as they get processed in the data pipeline.
 #' 
 #' 
-#' 
-#' \code{\link{dump_log}(stop=TRUE)} or \code{\link{stop_log}()}.
-#' 
 #' @section Creating a logger:
-#' \code{expression_logger$new(..., file="expression_log.csv"}
+#' \code{expression_logger$new(..., file="expression_log.csv)"}
 #' \tabular{ll}{
 #' \code{...}\tab comma-separated \code{name = expression} pairs\cr
 #' \code{file}\tab [character] filename for temporaty log storage. \cr
