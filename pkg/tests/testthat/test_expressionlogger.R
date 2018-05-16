@@ -17,3 +17,5 @@ test_that("expression logging",{
   expect_equal(lg$mh[1], mean(2*women$height))
   expect_equal(lg$mw[1], mean(women$weight))
 })
+
+
