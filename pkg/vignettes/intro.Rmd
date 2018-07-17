@@ -97,6 +97,7 @@ Here's a short overview of known loggers.
 - `simple` Just check whether data has changed.
 - `cellwise` Track changes per cell (incl. old value, new value)
 - `filedump` Dump a file after each step (including the zeroth step.)
+- `expression_logger` Track the result of any expression
 
 ### In other packages
 

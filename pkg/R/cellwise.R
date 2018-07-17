@@ -133,8 +133,10 @@ mpaste <- function(...) paste(...,sep=".@.")
 # send x to long format, values as character.
 keyframe <- function(x, key){
   col_x <- names(x)[names(x) != key]
-  kf <- expand.grid(key=x[,key],variable=col_x)
-  kf$value <- Reduce(cc, x[col_x])
+  # we need doube brackets, for tibbles.
+  kf <- expand.grid(key=x[[key]],variable=col_x)
+  # we need as.data.frame for certain tibbles (created with group_by)
+  kf$value <- Reduce(cc, as.data.frame(x[col_x]))
   isort(kf, c("key","variable"))
 }
 
