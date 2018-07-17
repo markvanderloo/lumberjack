@@ -2,7 +2,8 @@
 [![Build Status](https://travis-ci.org/markvanderloo/lumberjack.svg?branch=master)](https://travis-ci.org/markvanderloo/lumberjack)
 [![Coverage Status](https://coveralls.io/repos/markvanderloo/lumberjack/badge.svg?branch=master&service=github)](https://coveralls.io/github/markvanderloo/lumberjack?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/lumberjack)](http://cran.r-project.org/package=lumberjack/)
-[![Downloads](http://cranlogs.r-pkg.org/badges/lumberjack)](http://www.r-pkg.org/pkg/lumberjack) 
+[![Downloads](http://cranlogs.r-pkg.org/badges/lumberjack)](http://www.r-pkg.org/pkg/lumberjack)[![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
+
 
 
 
