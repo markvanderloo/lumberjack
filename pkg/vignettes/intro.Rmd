@@ -33,34 +33,41 @@ install.packages("lumberjack")
 ## The lumberjack workflow
 So you want to know who does what to your data as it flows through your
 process. Here's the workflow that allows you to do it using the `lumberjack`
-package. (Note the use of `%>>%`!)
+package. (Note the use of `%L>%`!)
 ```{r}
-out <- women %>>%
-  start_log() %>>%
-  identity() %>>%
-  head() %>>%
-  dump_log(stop=TRUE)
+out <- women %L>%
+  start_log() %L>%
+  identity() %L>%
+  head() %L>%
+  dump_log()
 read.csv("simple_log.csv")
 ```
 Lets go through this step by step to see what happened. The start of the script 
-defines an output variable `out` and passes `women` to the lumberjack (`%>>%`).
+defines an output variable `out` and passes `women` to the lumberjack (`%L>%`).
 Next, the function `start_log` makes sure that logging starts from there. We are
 now ready to start performing logged transformations on our dataset. First, we 
 apply the `identity` function, which does exactly nothing. Then, the `head` 
-function selects the first six rows in of the dataset and `dump_log(stop=TRUE)`
-writes the log to a csv file, which we then read in. The optional argument 
-`stop=TRUE` signals that no logging is necessary for following activities.
+function selects the first six rows in of the dataset and `dump_log()`
+writes the log to a csv file, which we then read in. After the log is dumped,
+logging stops automatically (by default).
 
-The resulting data frame contains a step number, a timestamp, the expression 
-evaluated to transform the data, and an indicator whether the data had changed at
-all. As expected, the `identity` function hasn't changed anything and the
+
+The logging data consists of a step number, a timestamp, the expression
+evaluated to transform the data, and an indicator whether the data had changed
+at all. As expected, the `identity` function hasn't changed anything and the
 `head` function cuts of all records below the sixth row.
+
+By the way, the variable `out` contains the first six records of the `women` dataset as
+expected.
+```{r}
+out
+```
 
 
 You have now seen the most important functions of the package. Let's summarize them.
 
 - `start_log(data, log)`: start logging using possibly a custom logger (see next section)
-- `%>>%`: the lumberjack. a logging-aware function composition operator ('pipe').
+- `%L>%`: the lumberjack. a logging-aware function composition operator ('pipe').
 - `dump_log(data, stop, ...)`: dump the log for `data` (if present)
 - `stop_log(data)`: stop logging.
 
@@ -75,14 +82,16 @@ structure.
 
 Just tell `start_log()` what logger to use. In the example below we use the
 builtin `cellwise` logger. For this logger it is necessary to have a key column
-that identifies the rows uniquely so we add that first.
+that identifies the rows uniquely so we add that first (we use `within` here,
+this is base R's equivalent to `dplyr`'s `mutate`).
 ```{r}
-logfile <- tempfile(fileext = ".csv")
-women$a_key <- seq_len(nrow(women))
-out <- women %>>%
-  start_log( log = cellwise$new(key="a_key") ) %>>%
-  {.$height[1] <- 60; .} %>>%
-  head(13) %>>%
+logfile <- tempfile(fileext = ".csv") # where the logging info is written
+women$a_key <- sprintf("W%02d", seq_len(nrow(women)))   # add a primary key to 'women'
+
+out <- women %L>%
+  start_log( log = cellwise$new(key="a_key") ) %L>%
+  within(height <- sqrt(height)) %L>%
+  head(13) %L>%
   dump_log(file=logfile, stop=TRUE)
 
 read.csv(logfile)
@@ -103,8 +112,29 @@ Here's a short overview of known loggers.
 
 - `validate::lbj_rules` Track changes in data quality measured by validation rules ([validate](https://CRAN.R-project.org/package=validate) version >= 0.2.0).
 - `validate::lbj_cells` Track changes in cell filling and cell counts ([validate](https://CRAN.R-project.org/package=validate) version >=0.2.0 ).
+- `daff::lbj_daff` Use data-diff to track changes in data frame-like objects. ([daff](https://CRAN.R-project.org/package=daff) version >= 3.3)
+
 
 See the [extending lumberjack](extending.html) vignette on how to build your own loggers.
+
+## One more example: the expression logger
+
+The expression logger allows you to log the result of one or more expressions that will
+be evaluated after each data processing step. For example, suppose we want to follow the 
+mean and variance of variables in the `women` dataset as it gets processed.
+
+```{r}
+logger <- expression_logger$new(mnh = mean(height), sdh = sd(height))
+out <- women %L>%
+  start_log(logger) %L>%
+  transform(height <- height*2.54) %L>% # height in cm
+  transform(weight <- weight*0.453592) %L>%
+  dump_log()
+
+read.csv("expression_log.csv",stringsAsFactors = FALSE)
+```
+
+
 
 
 ## Changing logger behaviour
@@ -130,7 +160,7 @@ dat <- start_log(women, log=simple$new(verbose=FALSE))
 ```
 The effect is that no message is printed when the log is dumped to file.
 ```{r}
-out <- dat %>>% identity() %>>% dump_log()
+out <- dat %L>% identity() %L>% dump_log()
 read.csv("simple_log.csv")
 ```
 
@@ -143,9 +173,9 @@ helpfile (`?simple`, `?cellwise`) to see all options.
 For the simple logger, the default output file is `simple_log.csv` This can be
 changed when calling `dump_log`. 
 ```{r}
-out <- dat %>>% 
-  start_log() %>>% 
-  identity() %>>% 
+out <- dat %L>% 
+  start_log() %L>% 
+  identity() %L>% 
   dump_log(file="log_all_day.csv")
 read.csv("log_all_day.csv")
 ```
@@ -176,21 +206,23 @@ The  lumberjack operator behaves as a simplified version of the `magrittr` pipe
 operator. Here are some examples.
 ```r
 # pass the first argument to a function
-1:3 %>>% mean()
+1:3 %L>% mean()
 
 # pass arguments using "."
-TRUE %>>% mean(c(1,NA,3), na.rm = .)
+TRUE %L>% mean(c(1,NA,3), na.rm = .)
 
 # pass arguments to an expression, using "."
-1:3 %>>% { 3 * .}
+1:3 %L>% { 3 * .}
 
 # in a more complicated expression, return "." explicitly
-women %>>% { .$height <- 2*.$height; . }
+women %L>% { .$height <- 2*.$height; . }
 ```
 
-The main differences are that 
+The main differences with `magrittr` are that 
+
 - there is no assignment-pipe like `%<>%`.
 - it does not allow you to define functions in the magrittr style: `a <- . %>% sin(.)`
+- you cannot do things like `pi %>% sin` and expect an answer
 
 ## Logging changes on non-data.frame objects
 
@@ -198,10 +230,10 @@ This is possible, but the logger has to support it. The `simple` logger works
 for any object, but the `cellwise` logger works on data.frame-like objects only.
 
 ```{r}
-out <- 1:3 %>>% 
-  start_log() %>>%
-  {.*2} %>>%
-  dump_log(file="foo.csv", stop=TRUE)
+out <- 1:3 %L>% 
+  start_log() %L>%
+  {.*2} %L>%
+  dump_log(file="foo.csv")
 
 print(out)
 

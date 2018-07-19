@@ -148,7 +148,6 @@ stop_log <- function(data, ...){
 `%>>%` <- function(lhs, rhs){
   # basic pipe action
   rhs <- substitute(rhs)
-  
   # need to pass environment so symbols defined there and passed
   # as argument can be resolved in NSE situations (see test_simple
   # for an example).
@@ -164,7 +163,9 @@ stop_log <- function(data, ...){
     log$add(meta=meta, input=lhs, output=out)
   }
   # if a naughty function has removed the log, we add it back.
-  if (has_log(lhs) && !has_log(out)){
+  # exceopt when it was removed by dum_log()
+  #if (rhs[[1]] == "dump_log") browser()
+  if (has_log(lhs) && !as.character(rhs[[1]]) %in% c("dump_log","remove_log") && !has_log(out)){
     attr(out,LOGNAME) <- log
   }
   out
