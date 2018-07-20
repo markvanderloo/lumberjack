@@ -88,10 +88,13 @@ this is base R's equivalent to `dplyr`'s `mutate`).
 logfile <- tempfile(fileext = ".csv") # where the logging info is written
 women$a_key <- sprintf("W%02d", seq_len(nrow(women)))   # add a primary key to 'women'
 
-out <- women %L>%
+# make the small example ea bit smaller
+wom <- head(women,5)
+
+out <- wom %L>%
   start_log( log = cellwise$new(key="a_key") ) %L>%
   within(height <- sqrt(height)) %L>%
-  head(13) %L>%
+  within(weight <- weight*2) %L>%
   dump_log(file=logfile, stop=TRUE)
 
 read.csv(logfile)
