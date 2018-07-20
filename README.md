@@ -60,3 +60,5 @@ completely flexible and users can write their own loggers as desired.
 - A [blogpost](http://www.markvanderloo.eu/yaRb/2017/06/23/track-changes-in-data-with-the-lumberjack/) introducing the package
 - Get started with the [introductory vignette](https://cran.r-project.org/web/packages/lumberjack/vignettes/intro.html)
 - Write your own loggers: [extending lumberjack](https://cran.r-project.org/web/packages/lumberjack/vignettes/extending.html)
+- [Video](https://www.youtube.com/watch?v=DNZs0CHBU4s&t=) of my talk at [eRum2018](https://2018.erum.io/).
+
