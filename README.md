@@ -24,10 +24,10 @@ install.packages('lumberjack')
 To log changes in data, you need to attach a logger, and use the `lumberjack` operator `%>>%`.
 
 ```r
-> out <- iris %>>%     # feed iris
-+   start_log() %>>%   # tag for logging
-+   identity() %>>%    # do nothing
-+   head() %>>%        # cut of the head
+> out <- iris %L>%     # feed iris
++   start_log() %L>%   # tag for logging
++   identity() %L>%    # do nothing
++   head() %L>%        # cut of the head
 +   dump_log()         # dump log
 Dumped a log at /home/mark/projects/lumberjack/simple_log.csv
 > 
