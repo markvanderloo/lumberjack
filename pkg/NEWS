@@ -1,14 +1,16 @@
 version 0.3.0
-- Added expression_logger: log custom expressions
+- '%L>%' is now considered the default lumberjack operator. '%>>%' remains as alias.
+- Added 'expression_logger': log custom expressions
 - Logging now also works for functions that remove the logging attribute.
 - The 'cellwise' logger is now compatible with 'tibble' objects (thanks to
-  Blain Bateman for reporting). 
+  Blain Bateman). 
+- Some documentation improvements.
 
 version 0.2.0
-- Added %L>% as synonym to avoid possible confusion with pipeR::`%>>%`
+- Added '%L>%' as synonym to avoid possible confusion with 'pipeR::`%>>%`'
 - Argument 'stop' of 'dump_log' is now 'TRUE' by default (was 'FALSE')
 - New logger named 'filedump' dumps data versions to csv.
-- Function stop_log() will now call <logger>$stop() if defined.
+- Function 'stop_log()' will now call '<logger>$stop()' if defined.
 - Package now depends on R >= 3.4.0. Some tests failed on Windows/OSX + R3.3.3
 
 version 0.1.0

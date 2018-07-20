@@ -12,7 +12,6 @@ Version: 0.3.0
 URL: https://github.com/markvanderloo/lumberjack
 BugReports: https://github.com/markvanderloo/lumberjack/issues
 Imports: utils, R6
-Date: 2018-05-16
 Depends: R (>= 3.4.0)
 Suggests:
     testthat,
