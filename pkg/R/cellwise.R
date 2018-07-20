@@ -5,11 +5,7 @@
 #' 
 #' The cellwise logger registres the row, column, old, and new value
 #' of cells that changed, along with a step number, timestamp, and the
-#' expression used to alter a dataset. The log is initially written
-#' to a file connection. Upon dump, this file is closed, copied
-#' to a local file and reopened. The connection to the temporary 
-#' file is closed and destroyed when the logger is removed (using
-#' \code{\link{dump_log}(stop=TRUE)} or \code{\link{stop_log}()}.
+#' expression used to alter a dataset. 
 #' 
 #' @section Creating a logger:
 #' \code{cellwise$new(verbose=TRUE, file=tempfile()}

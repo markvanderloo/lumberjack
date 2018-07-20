@@ -28,7 +28,7 @@
 #'  
 #' @section Details:
 #' 
-#' If \code{dir} does not exist it is created. If 
+#' If \code{dir} does not exist it is created. 
 #' 
 #' 
 #' @docType class

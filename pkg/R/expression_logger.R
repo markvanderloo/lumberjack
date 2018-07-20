@@ -4,13 +4,13 @@
 
 #' The expression logger.
 #' 
-#' The expression logger records the result of one or more user defined
+#' The expression logger records the result of one or more user-defined
 #' expressions. It can be used, for example to track aggregates (mean, min, max)
 #' of variables as they get processed in the data pipeline.
 #' 
 #' 
 #' @section Creating a logger:
-#' \code{expression_logger$new(..., file="expression_log.csv)"}
+#' \code{expression_logger$new(..., file="expression_log.csv")}
 #' \tabular{ll}{
 #' \code{...}\tab comma-separated \code{name = expression} pairs\cr
 #' \code{file}\tab [character] filename for temporaty log storage. \cr
