@@ -33,3 +33,4 @@ test_that("cellwise",{
   expect_equal(nrow(d),ncol(iris)-1L)
 })
 
+
