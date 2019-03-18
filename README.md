@@ -26,10 +26,10 @@ install.packages('lumberjack')
 To log changes in data, you need to attach a logger, and use the `lumberjack` operator `%>>%`.
 
 ```r
-> out <- iris %>>%     # feed iris
-+   start_log() %>>%   # tag for logging
-+   identity() %>>%    # do nothing
-+   head() %>>%        # cut of the head
+> out <- iris %L>%     # feed iris
++   start_log() %L>%   # tag for logging
++   identity() %L>%    # do nothing
++   head() %L>%        # cut of the head
 +   dump_log()         # dump log
 Dumped a log at /home/mark/projects/lumberjack/simple_log.csv
 > 
@@ -62,3 +62,5 @@ completely flexible and users can write their own loggers as desired.
 - A [blogpost](http://www.markvanderloo.eu/yaRb/2017/06/23/track-changes-in-data-with-the-lumberjack/) introducing the package
 - Get started with the [introductory vignette](https://cran.r-project.org/web/packages/lumberjack/vignettes/intro.html)
 - Write your own loggers: [extending lumberjack](https://cran.r-project.org/web/packages/lumberjack/vignettes/extending.html)
+- [Video](https://www.youtube.com/watch?v=DNZs0CHBU4s&t=) of my talk at [eRum2018](https://2018.erum.io/).
+

@@ -5,7 +5,7 @@
 #' 
 #' @section Overview:
 #' 
-#' The lumberjack \code{\%>>\%} behaves much like other function
+#' The lumberjack \code{\%L>\%} behaves much like other function
 #' composition ('pipe') operators available in R (e.g. \href{https://CRAN.R-project.org/package=magrittr}{magrittr}
 #' , \href{https://github.com/piccolbo/yapo}{yapo}, \href{https://CRAN.R-project.org/package=pipeR}{pipeR})
 #' with one exception: it allows for logging the changes made to the data
@@ -109,11 +109,11 @@ stop_log <- function(data, ...){
 #' 
 #' @section Piping:
 #' 
-#' The operators \code{\%>>\%} and \code{\%L>\%} are synonyms. The \code{\%L>\%}
-#' can be used to avoid confusion with the \code{\%>>\%} operator of the
-#' \code{pipeR} package.
+#' The operators \code{\%L>\%} and \code{\%>>\%} are synonyms. The \code{\%L>\%}
+#' is the default since version 0.3.0 to avoid confusion with the \code{\%>>\%}
+#' operator of the \code{pipeR} package but \code{\%>>\%} still works.
 #' 
-#' The lumberjack operator behaves more or less as a simplified version of the 
+#' The lumberjack operator behaves as a simplified version of the
 #' \code{magrittr} pipe operator. The basic behavior of \code{lhs \%>>\% rhs} is
 #' the following:
 #'
@@ -130,6 +130,7 @@ stop_log <- function(data, ...){
 #'   like \code{a <- . \%>\% sin(.) } 
 #'   }
 #'   \item{there is no assignment-pipe like \code{\%<>\%}.}
+#'   \item{you cannot do things like \code{x \%>\% sin} (without the brackets).}
 #' }
 #' 
 #' 
@@ -148,7 +149,6 @@ stop_log <- function(data, ...){
 `%>>%` <- function(lhs, rhs){
   # basic pipe action
   rhs <- substitute(rhs)
-  
   # need to pass environment so symbols defined there and passed
   # as argument can be resolved in NSE situations (see test_simple
   # for an example).
@@ -164,7 +164,9 @@ stop_log <- function(data, ...){
     log$add(meta=meta, input=lhs, output=out)
   }
   # if a naughty function has removed the log, we add it back.
-  if (has_log(lhs) && !has_log(out)){
+  # exceopt when it was removed by dum_log()
+  #if (rhs[[1]] == "dump_log") browser()
+  if (has_log(lhs) && !as.character(rhs[[1]]) %in% c("dump_log","remove_log") && !has_log(out)){
     attr(out,LOGNAME) <- log
   }
   out

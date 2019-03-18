@@ -16,6 +16,13 @@ test_that("Logging does not depend on functins keeping attributes",{
     start_log(simple$new()) %L>%
     naughty_function()
   expect_true(has_log(out))
+  
+  # exclude remove_log and dump_log from naughty functions
+  out <- 1:3 %L>%
+    start_log() %L>%
+    {.*2} %L>% 
+    dump_log(file=tempfile()) 
+  expect_null(attributes(out))
 })
 
 

@@ -12,22 +12,22 @@ vignette: >
 ---
 
 There are many ways one may want to register changes in data.
-That is why `lumberjack` allows you to write your own loggers. Here, you can
+That is why `lumberjack` allows you to write your own loggers. Here you can
 read how to do it.
 
 ## The lumberjack logging API
 
-A logger is a reference object wich must have the following methods:
+In short, a logger is a _reference object_ with the following methods:
 
-1. `$add(meta, input, output)`. This is a function that adds computes the
+1. `$add(meta, input, output)`. This is a function that computes the
 difference between `input` and `output` and adds it to a log. The `meta`
 argument is a `list` with two elements:
     - `expr` The expression used to turn `input` into `output`
     - `src` The same expression, but turned into a string.
 2. `$dump()` This function writes dumps the current logging info somewhere.
-Often this will be a file, but it is completely flexible.
+Often this will be a file, but it really can be any place where R can send data.
 
-There are several systems in R to build such reference object. We recommend
+There are several systems in R to build such an object. We recommend
 using [R6](https://cran.r-project.org/package=R6) classes or 
 [Reference classes](http://adv-r.had.co.nz/R5.html).
 
@@ -61,15 +61,15 @@ trivial <- R6Class("trivial",
 Here is how to use it.
 ```{r}
 library(lumberjack)
-out <- women %>>% 
-  start_log(trivial$new()) %>>%
-  identity() %>>%
+out <- women %L>% 
+  start_log(trivial$new()) %L>%
+  identity() %L>%
   dump_log(stop=TRUE)
 
 
-out <- women %>>%
-  start_log(trivial$new()) %>>%
-  head() %>>%
+out <- women %L>%
+  start_log(trivial$new()) %L>%
+  head() %L>%
   dump_log(stop=TRUE)
 ```
 
@@ -100,15 +100,15 @@ trivial <- setRefClass("trivial",
 And here is how to use it.
 ```{r}
 library(lumberjack)
-out <- women %>>% 
-  start_log(trivial()) %>>%
-  identity() %>>%
+out <- women %L>% 
+  start_log(trivial()) %L>%
+  identity() %L>%
   dump_log(stop=TRUE)
 
 
-out <- women %>>%
-  start_log(trivial()) %>>%
-  head() %>>%
+out <- women %L>%
+  start_log(trivial()) %L>%
+  head() %L>%
   dump_log(stop=TRUE)
 
 ```
@@ -150,9 +150,9 @@ and its methods. To show how to document arguments, we included and
 #' @format An \code{R6} class object.
 #' 
 #' @examples
-#' out <- women %>>%
-#'  start_log(trivial$new()) %>>%
-#'  head() %>>%
+#' out <- women %L>%
+#'  start_log(trivial$new()) %L>%
+#'  head() %L>%
 #'  dump_log(stop=TRUE)
 #' 
 #'

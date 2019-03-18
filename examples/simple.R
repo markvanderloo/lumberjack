@@ -1,9 +1,9 @@
 
 logfile <- tempfile(fileext=".csv")
-out <- women %>>%
-  start_log(log=simple$new(verbose=FALSE)) %>>%
-  identity() %>>%
-  head() %>>% 
+out <- women %L>%
+  start_log(log=simple$new(verbose=FALSE)) %L>%
+  identity() %L>%
+  head() %L>% 
   dump_log(file=logfile, stop=TRUE)
 
 
