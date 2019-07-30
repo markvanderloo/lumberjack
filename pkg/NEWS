@@ -1,3 +1,6 @@
+version 0.4.0
+- Switched to 'tinytest' testing framework
+
 version 0.3.0
 - '%L>%' is now considered the default lumberjack operator. '%>>%' remains as alias.
 - Added 'expression_logger': log custom expressions
