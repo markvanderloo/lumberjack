@@ -18,7 +18,7 @@
 #' 
 #' 
 #' @section Dump options:
-#' \code{$dump(key, verbose=TRUE, file="cellwise.csv")}
+#' \code{$dump(file="cellwise.csv")}
 #' \tabular{ll}{
 #'   \code{file}\tab \code{[character]} location to write final output to.
 #' }

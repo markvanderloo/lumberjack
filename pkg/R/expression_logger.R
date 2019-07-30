@@ -10,10 +10,11 @@
 #' 
 #' 
 #' @section Creating a logger:
-#' \code{expression_logger$new(..., file="expression_log.csv")}
+#' \code{expression_logger$new(..., file="expression_log.csv", verbose=TRUE)}
 #' \tabular{ll}{
 #' \code{...}\tab comma-separated \code{name = expression} pairs\cr
-#' \code{file}\tab [character] filename for temporaty log storage. \cr
+#' \code{file}\tab \code{[character]} filename for temporaty log storage. \cr
+#' \code{verbose}\tab \code{[logical]} toggle verbosity\cr
 #' }
 #' 
 #' 
@@ -39,10 +40,12 @@ expression_logger <- R6Class("expression_loggger"
     , expression = NULL
     , result = NULL
     , file=NULL
-    , initialize = function(..., file="expression_log.csv"){
-        self$step       = c()
-        self$expression = c()
-        self$file       = file
+    , verbose=TRUE
+    , initialize = function(..., file="expression_log.csv", verbose=TRUE){
+        self$step       <- c()
+        self$expression <- c()
+        self$file       <- file
+        self$verbose    <- verbose
         self$expr <- as.list(substitute(list(...))[-1])
     }
     , add = function(meta, input, output){
@@ -64,7 +67,7 @@ expression_logger <- R6Class("expression_loggger"
           , self$result, stringsAsFactors = FALSE)
         , file=self$file
         , row.names=FALSE)
-      lumberjack:::msgf("Dumped a log at %s",self$file)
+      if( self$verbose ) lumberjack:::msgf("Dumped a log at %s",self$file)
     }
   )
 )
