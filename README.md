@@ -12,7 +12,6 @@
 A function composition operator ('pipe') and extensible framework
 that allows for easy logging of changes in data.
 
-<a href="https://asciinema.org/a/5wbyzkgvrif4884n41gmstjg0"><img src="https://asciinema.org/a/5wbyzkgvrif4884n41gmstjg0.png" width=400></a>
 
 ### Installation
 
