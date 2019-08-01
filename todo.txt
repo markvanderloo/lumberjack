@@ -1,4 +1,4 @@
-- multiple datasets with multiple loggers for 'run'
+- more consistent naming: 'logger' vs 'log'
 - detailed control over dumping: add_logger vs start_logger
 - 'dir' argument for dump_log (with getOption("lbj_logdir","./") a default)
 - dump to 'dir/dataset_loggername'

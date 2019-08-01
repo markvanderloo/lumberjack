@@ -1,12 +1,15 @@
 # get names of loggers
-get_loggers <- function(store, dataset) ls(store[[dataset]], pattern="^logger")
+get_loggers <- function(store, dataset){ 
+   a <-  ls(store[[dataset]])
+   a[a != "data"]
+}
 
 
 # store: environment to store data and logger.
 #
 # store$dataset$data
-#              $logger001
-#              $logger002
+#              $simple
+#              $cellwise
 log_capture <- function(store){
     function(data, logger){
       dataset <- as.character(substitute(data))
@@ -15,12 +18,19 @@ log_capture <- function(store){
         store[[dataset]]$data <- data
       } 
       loggers   <- get_loggers(store, dataset)
-      newlogger <- sprintf("logger%03d", length(loggers)+1)
+      newlogger <- class(logger)[[1]]
+      if ( newlogger  %in% loggers ){
+        warnf("Can not add a second logger of class '%s' to '%s'. Ignoring."
+          , class(logger)[[1]], dataset)
+        return(invisible(data))
+      }
       store[[dataset]][[newlogger]] <- logger
       invisible(data)
     }
 }
 
+# We need some detailed dump options because there may be multiple loggers, for
+# multiple datasets and the user may want to choose what logs to dump.
 dump_capture <- function(store){
   function(data=NULL, loggers = NULL, stop=TRUE, ...){ 
 
@@ -78,7 +88,7 @@ update_loggers <- function(store, envir, expr){
   for ( dataset in datasets ){
     old <- store[[dataset]]$data
     new <- get(dataset, envir=envir)
-    loggers <- ls(store[[dataset]], pattern="^logger")
+    loggers <- get_loggers(store, dataset)
     for ( logger in loggers ){
       store[[datasets]][[logger]]$add(meta, old, new)
     }

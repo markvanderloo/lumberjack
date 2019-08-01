@@ -68,13 +68,16 @@ remove_log <- function(data){
 #' Dump a log
 #' 
 #' @param data data set containing a log
+#' @param loggers \code{[character]} vector. Class names of loggers to dump (e.g.
+#'   \code{"simple"}).  When \code{loggers=NULL}, all loggers are dumped
+#'   for this data.
 #' @param stop stop logging after the dump?
 #' @param ... Arguments past to the \code{dump} method of the logger.
 #'
 #' @return  The data, invisibly
 #' 
 #' @export
-dump_log <- function(data, stop=TRUE, ...){
+dump_log <- function(data, loggers=NULL,stop=TRUE, ...){
   log <- get_log(data)
   log$dump(...)
   if (stop) invisible(remove_log(data)) else invisible(data)
