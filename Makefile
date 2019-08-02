@@ -35,7 +35,16 @@ revdep: pkg
 
 
 clean:
+	rm -f pkg/vignettes/*.aux
+	rm -f pkg/vignettes/*.log
+	rm -f pkg/vignettes/*.out
+	rm -f pkg/vignettes/*.pdf
+	rm -f pkg/vignettes/*.toc
 	rm -rf *.Rcheck
 	rm -rf revdep
 	rm -f *.tar.gz
+
+using:
+	./using_lumberjack.sh
+
 
