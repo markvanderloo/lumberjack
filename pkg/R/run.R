@@ -32,15 +32,15 @@ log_capture <- function(store){
 # We need some detailed dump options because there may be multiple loggers, for
 # multiple datasets and the user may want to choose what logs to dump.
 dump_capture <- function(store){
-  function(data=NULL, loggers = NULL, stop=TRUE, ...){ 
+  function(data=NULL, logger = NULL, stop=TRUE, ...){ 
 
-    if (is.null(data) && is.null(loggers)){ 
+    if (is.null(data) && is.null(logger)){ 
       # dump all loggers for all datasets
       for (dataset in ls(store)){
         loggers <- get_loggers(store, dataset)
-        for (logger in loggers){
-          store[[dataset]][[logger]]$dump(...)
-          if (stop) rm(list = logger, envir = store[[dataset]])
+        for (lggr in loggers){
+          store[[dataset]][[lggr]]$dump(...)
+          if (stop) rm(list = lggr, envir = store[[dataset]])
         }
       }
       return(invisible(NULL))
@@ -55,24 +55,24 @@ dump_capture <- function(store){
     }
 
 
-    if ( is.null(loggers) ){
+    if ( is.null(logger) ){
       # dump all loggers for the current dataset
       loggers <- get_loggers(store, dataset)
-      for (logger in loggers){
-        store[[dataset]][[logger]]$dump(...)
-        if (stop) rm(list=logger, envir = store[[dataset]])
+      for (lggr in loggers){
+        store[[dataset]][[lggr]]$dump(...)
+        if (stop) rm(list=lggr, envir = store[[dataset]])
       }
       return(invisible(data))
     }
 
-    if (is.character(loggers)){
-      for (logger in loggers){
-        if ( is.null(store[[dataset]][[logger]]) ){
-          warnf("Logger '%s' not found for dataset '%s'", logger, dataset)
+    if (is.character(logger)){
+      for (lggr in logger){
+        if ( is.null(store[[dataset]][[lggr]]) ){
+          warnf("Logger '%s' not found for dataset '%s'", lggr, dataset)
           next
         }
-        store[[dataset]][[logger]]$dump(...)
-        if (stop) rm(list=logger, envir=store[[dataset]])
+        store[[dataset]][[lggr]]$dump(...)
+        if (stop) rm(list=lggr, envir=store[[dataset]])
       } 
       return(invisible(data))
     }

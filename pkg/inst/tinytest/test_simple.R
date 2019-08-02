@@ -16,6 +16,6 @@ i2 <- head(women) %>>%
 expect_true(file.exists(logfile))
 logger <- simple$new()
 iris %>>% start_log(logger) %>>% head() %>>% stop_log()
-expect_equal(nrow(logger$logdata()), 2)
+expect_equal(nrow(logger$logdata()), 1L)
 
 

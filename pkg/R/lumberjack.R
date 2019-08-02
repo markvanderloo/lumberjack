@@ -5,11 +5,13 @@
 #' 
 #' @section Overview:
 #' 
-#' The lumberjack \code{\%L>\%} behaves much like other function
-#' composition ('pipe') operators available in R (e.g. \href{https://CRAN.R-project.org/package=magrittr}{magrittr}
-#' , \href{https://github.com/piccolbo/yapo}{yapo}, \href{https://CRAN.R-project.org/package=pipeR}{pipeR})
-#' with one exception: it allows for logging the changes made to the data
-#' by the functions acting on it.
+#' The lumberjack \code{\%L>\%} behaves much like other 'pipe' operators
+#' available in R (e.g.
+#' \href{https://CRAN.R-project.org/package=magrittr}{magrittr} ,
+#' \href{https://github.com/piccolbo/yapo}{yapo},
+#' \href{https://CRAN.R-project.org/package=pipeR}{pipeR}) with one exception:
+#' it allows for logging the changes made to the data by the functions acting
+#' on it.
 #' 
 #' The actual logging mechanism is completely flexible and extensible. This
 #' package comes with a few predefined loggers, but users and package authors
@@ -19,7 +21,6 @@
 #' or the \href{../doc/extending.html}{extending lumberjack} manual to start 
 #' writing your own loggers.
 #'
-#' Happy logging!
 #'
 #' @docType package
 #' @name lumberjack
@@ -36,16 +37,39 @@ LOGNAME <- "__log__"
 #'
 #'
 #' @param data An R object carrying data.
-#' 
+#' @param logger \code{[character]} scalar. Logger to return. Can be
+#' \code{NULL} when a single logger is attached.
 #' @return A logging object, or \code{NULL} if none exists.
 #' 
 #' @export
-get_log <- function(data){
-  attr(data, which=LOGNAME, exact=TRUE)
+get_log <- function(data, logger=NULL){
+  store <- attr(data, which=LOGNAME, exact=TRUE)
+  dataset <- as.character(substitute(data))
+
+  if ( is.null(store) || ( !is.null(store) & length(ls(store))==0 )){ 
+    return(NULL)
+  }
+
+  loggers <- ls(store)
+
+  if (is.null(logger)){
+    if ( length(loggers) == 1 ){
+      return(store[[loggers]])
+    } else {
+      stopf("Dataset has multiple loggers attached. Specify one of: %s"
+        , paste(sprintf("'%s'",loggers), collapse=","))
+    }
+  }
+
+  if ( is.null(store[[logger]]) ){
+    stopf("Dataset is not logged by '%s'", logger)
+  }
+  store[[logger]]
 }
 
 has_log <- function(data){
-  !is.null(get_log(data))
+  store <- attr(data,LOGNAME)
+  is.null(store) || length(ls(store) == 0)
 }
 
 
@@ -55,20 +79,42 @@ has_log <- function(data){
 #' @param log A logging object (typically an environment wrapped in an S3 class)
 #'
 #' @export
-start_log <- function(data, log=simple$new()){
-  attr(data, LOGNAME) <- log
+start_log <- function(data, logger=simple$new()){
+  if ( is.null(attr(data, LOGNAME)) ){
+    attr(data, LOGNAME) <- new.env()
+  }
+  store <- attr(data, LOGNAME)
+  newlogger <- class(logger)[[1]]
+  if ( newlogger %in% ls(store)){
+    dataset <- as.character(substitute(data))
+    warnf("Can not add second logger of class '%s' to '%s'. Ignoring"
+         , newlogger, dataset)
+    return(invisible(data))
+  }
+  store[[ class(logger)[[1]] ]] <- logger
   invisible(data)
 }
 
-remove_log <- function(data){
-  attr(data, which=LOGNAME) <- NULL
+remove_log <- function(data, logger){
+  store <- attr(data, LOGNAME)
+  if ( is.null(store) ) return(data)
+  rm(list=logger, envir=store)
+  if (length(ls(store)) == 0)
+  attr(data, LOGNAME) <- NULL
   data
+}
+
+
+all_loggers <- function(data){
+  store <- attr(data,LOGNAME)
+  if (is.null(store)) character(0)
+  else ls(store)
 }
 
 #' Dump a log
 #' 
 #' @param data data set containing a log
-#' @param loggers \code{[character]} vector. Class names of loggers to dump (e.g.
+#' @param logger \code{[character]} vector. Class names of loggers to dump (e.g.
 #'   \code{"simple"}).  When \code{loggers=NULL}, all loggers are dumped
 #'   for this data.
 #' @param stop stop logging after the dump?
@@ -77,10 +123,14 @@ remove_log <- function(data){
 #' @return  The data, invisibly
 #' 
 #' @export
-dump_log <- function(data, loggers=NULL,stop=TRUE, ...){
-  log <- get_log(data)
-  log$dump(...)
-  if (stop) invisible(remove_log(data)) else invisible(data)
+dump_log <- function(data, logger=NULL,stop=TRUE, ...){
+  if ( is.null(logger) ) logger <- all_loggers(data)
+  for ( lggr in logger ){
+    log <- get_log(data, logger=lggr)
+    log$dump(...)
+    if (stop) return(invisible(remove_log(data,logger=logger)))
+  }
+  invisible(data)
 }
 
 #' Stop logging
@@ -89,13 +139,21 @@ dump_log <- function(data, loggers=NULL,stop=TRUE, ...){
 #' the logger as attribute from \code{data}.
 #' 
 #' @param data An R object carrying data
+#' @param logger \code{[character]} vector. Class names of loggers to dump (e.g.
+#'   \code{"simple"}).  When \code{loggers=NULL}, all loggers are stopped and
+#'   removed for this data.
 #' @param ... Passed to the logger's \code{stop} method, if it exists.
 #' 
+#' @return The data, invisibly.
 #' @export
-stop_log <- function(data, ...){
-  logger <- get_log(data)
-  if (is.function(logger$stop)) logger$stop(...)
-  remove_log(data)
+stop_log <- function(data, logger=NULL, ...){
+  if (is.null(logger)) logger <- all_loggers(data)
+  for ( lggr in logger ){
+    log <- get_log(data, logger = lggr)
+    if (is.function(log$stop)) log$stop(...)
+    remove_log(data, lggr)
+  }
+  invisible(data)
 }
 
 
@@ -150,6 +208,8 @@ stop_log <- function(data, ...){
 #' 
 #' @export 
 `%>>%` <- function(lhs, rhs){
+  store <- attr(lhs, LOGNAME)
+
   # basic pipe action
   rhs <- substitute(rhs)
   # need to pass environment so symbols defined there and passed
@@ -158,19 +218,22 @@ stop_log <- function(data, ...){
   out <- pipe(lhs, rhs, env=parent.frame())
   
   meta <- list(
-    expr = as.expression(rhs)
+      expr = as.expression(rhs)
     , src = as.character(as.expression(rhs))
   )
   # update logging if set
   if ( has_log(lhs) ){
-    log <- get_log(lhs)
-    log$add(meta=meta, input=lhs, output=out)
+    for (lggr in all_loggers(lhs)){
+      log <- get_log(lhs, lggr)
+      log$add(meta=meta, input=lhs, output=out)
+    }
   }
-  # if a naughty function has removed the log, we add it back.
-  # exceopt when it was removed by dum_log()
-  #if (rhs[[1]] == "dump_log") browser()
-  if (has_log(lhs) && !as.character(rhs[[1]]) %in% c("dump_log","remove_log") && !has_log(out)){
-    attr(out,LOGNAME) <- log
+  # if a naughty function has removed the log-store, we add it back.
+  # except when it was removed by dump_log()
+  if ( has_log(lhs) && 
+      !as.character(rhs[[1]]) %in% c("dump_log","remove_log","stop_log") && 
+      !has_log(out)){
+    attr(out,LOGNAME) <- store
   }
   out
 }
