@@ -24,14 +24,20 @@ difference between `input` and `output` and adds it to a log. The `meta`
 argument is a `list` with two elements:
     - `expr` The expression used to turn `input` into `output`
     - `src` The same expression, but turned into a string.
-2. `$dump()` This function writes dumps the current logging info somewhere.
-Often this will be a file, but it really can be any place where R can send data.
+2. `$dump()` This function writes the current logging info somewhere.  Often
+    this will be a file, but it really can be any place where R can send data.
+
+Furthermore, a logger _must_ have a slot called `$label`. The label is set by
+`start_log` and is used to keep track of logging streams when multiple datasets
+are tracked with instances of the same logger type. `start_log` will try to
+create a label if none is provided. If it fails to create a lable, it will
+be set to the empty string `""`.
 
 There are several systems in R to build such an object. We recommend
 using [R6](https://cran.r-project.org/package=R6) classes or 
 [Reference classes](http://adv-r.had.co.nz/R5.html).
 
-Below we give an example in each system. The example loggers only register 
+Below we give an example in each system. The example loggers only register
 whether something has ever changed. A `dump` results in a simple message on
 screen.
 
@@ -45,6 +51,7 @@ library(R6)
 trivial <- R6Class("trivial",
   public = list(
     changed = NULL
+  , label=NULL
   , initialize = function(){
       self$changed <- FALSE
   }
@@ -81,11 +88,12 @@ to define the `trivial` logger as a reference class.
 library(methods)
 trivial <- setRefClass("trivial",
   fields = list(
-    changed = "logical"
+    changed = "logical", label="character"
   ),
   methods = list(
     initialize = function(){
       .self$changed = FALSE
+      .self$label = ""
     }
     , add = function(meta, input, output){
       .self$changed <- .self$changed | !identical(input,output)

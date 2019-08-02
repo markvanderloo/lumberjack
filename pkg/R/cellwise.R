@@ -93,7 +93,7 @@ cellwise <- R6Class("cellwise"
       self$con <- iclose(self$con)
       if (is.null(file)){ 
         file <- "cellwise.csv" 
-        if (!is.null(self$label)) file <- paste(self$label,file,sep="_")
+        if (!is.null(self$label) && self$label != "" ) file <- paste(self$label,file,sep="_")
       }
       file.copy(from=self$tmpfile, to=file, overwrite = TRUE)
       if (self$verbose){

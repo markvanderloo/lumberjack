@@ -62,7 +62,7 @@ expression_logger <- R6Class("expression_loggger"
     , dump = function(file=NULL,...){
         if (is.null(file)){
           file <- "expression.csv"
-          if (!is.null(self$label)) file <- paste(self$label, file, sep="_")
+          if (!is.null(self$label) && self$label != "") file <- paste(self$label, file, sep="_")
         }
         d <- cbind(
               step       = self$step

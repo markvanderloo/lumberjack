@@ -11,7 +11,7 @@ get_loggers <- function(store, dataset){
 #              $simple
 #              $cellwise
 log_capture <- function(store){
-    function(data, logger){
+    function(data, logger, label=NULL){
       dataset <- as.character(substitute(data))
       if (!dataset %in% ls(store)){ 
         store[[dataset]] <- new.env()
@@ -24,7 +24,16 @@ log_capture <- function(store){
           , class(logger)[[1]], dataset)
         return(invisible(data))
       }
-      if ("label" %in% ls(logger)) logger$label <- dataset
+  
+      # loggers that have a 'dataset' slot have access to
+      # the name of the dataset
+      if ( "label" %in% ls(logger) ){
+        dataset <- as.character(substitute(data))
+        lab <- if (!is.null(label)) paste(label,collapse="") 
+        else if (length(dataset) == 1) dataset
+        else ""
+        logger$label <- lab
+      }
       store[[dataset]][[newlogger]] <- logger
       invisible(data)
     }

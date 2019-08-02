@@ -60,7 +60,7 @@ simple <- R6Class("simple"
         log_df <- do.call(rbind,mget(ls(self$store), self$store))
         if (is.null(file)){ 
           file <- "simple.csv"
-          if (!is.null(self$label)) file <- paste(self$label,file,sep="_")
+          if (!is.null(self$label) && self$label != "" ) file <- paste(self$label,file,sep="_")
         }
         write.csv(log_df, file=file, row.names = FALSE,...)
         if (is.character(file) && self$verbose ){

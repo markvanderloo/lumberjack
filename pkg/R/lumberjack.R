@@ -111,7 +111,7 @@ start_log <- function(data, logger=simple$new(), label=NULL){
     dataset <- as.character(substitute(data))
     lab <- if (!is.null(label)) paste(label,collapse="") 
     else if (length(dataset) == 1) dataset
-    else NULL
+    else ""
     logger$label <- lab
   }
   store[[ class(logger)[[1]] ]] <- logger
