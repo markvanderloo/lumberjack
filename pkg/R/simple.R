@@ -40,6 +40,7 @@ simple <- R6Class("simple"
     n = NULL
     , store = NULL
     , verbose = NULL
+    , label = NULL
     , initialize = function( verbose = TRUE){
       self$n <- 0
       self$store <- new.env()
@@ -55,8 +56,12 @@ simple <- R6Class("simple"
       self$store[[logname]] <- logdat
       
     }
-    , dump = function(file="simple_log.csv",...){
+    , dump = function(file=NULL,...){
         log_df <- do.call(rbind,mget(ls(self$store), self$store))
+        if (is.null(file)){ 
+          file <- "simple.csv"
+          if (!is.null(self$label)) file <- paste(self$label,file,sep="_")
+        }
         write.csv(log_df, file=file, row.names = FALSE,...)
         if (is.character(file) && self$verbose ){
           msgf("Dumped a log at %s", normalizePath(file))

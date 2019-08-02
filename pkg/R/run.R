@@ -24,6 +24,7 @@ log_capture <- function(store){
           , class(logger)[[1]], dataset)
         return(invisible(data))
       }
+      if ("label" %in% ls(logger)) logger$label <- dataset
       store[[dataset]][[newlogger]] <- logger
       invisible(data)
     }

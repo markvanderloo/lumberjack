@@ -39,12 +39,11 @@ expression_logger <- R6Class("expression_loggger"
     , expr = NULL
     , expression = NULL
     , result = NULL
-    , file=NULL
     , verbose=TRUE
-    , initialize = function(..., file="expression_log.csv", verbose=TRUE){
+    , label=NULL
+    , initialize = function(..., verbose=TRUE){
         self$step       <- c()
         self$expression <- c()
-        self$file       <- file
         self$verbose    <- verbose
         self$expr <- as.list(substitute(list(...))[-1])
     }
@@ -60,14 +59,18 @@ expression_logger <- R6Class("expression_loggger"
           self$result <- rbind(self$result, out)
         }
     }
-    , dump = function(...){
-      write.csv(cbind(
-            step=self$step
-          , expression= self$expression
-          , self$result, stringsAsFactors = FALSE)
-        , file=self$file
-        , row.names=FALSE)
-      if( self$verbose ) lumberjack:::msgf("Dumped a log at %s",self$file)
+    , dump = function(file=NULL,...){
+        if (is.null(file)){
+          file <- "expression.csv"
+          if (!is.null(self$label)) file <- paste(self$label, file, sep="_")
+        }
+        d <- cbind(
+              step       = self$step
+            , expression = self$expression
+            , self$result
+            , stringsAsFactors = FALSE)
+        write.csv(d, file=file , row.names=FALSE)
+        if( self$verbose ) lumberjack:::msgf("Dumped a log at %s", file)
     }
   )
 )

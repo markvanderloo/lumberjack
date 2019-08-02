@@ -1,7 +1,8 @@
 version 0.4.0
-- Track changes without the pipe operator, using 'run'
-- Support for multiple loggers
-- Argument 'log' is now 'logger' in start_log(), dum_log() et al.
+- Track changes in data in scripts, using 'run', without the need for '%L>%'
+- Support for multiple loggers; loggers can now support an (automatic) label
+  which is used to distinguish output files when multiple datasets are tracked.
+- Argument 'log' is replaced by 'logger' in start_log(), dump_log() et al.
 - Switched to 'tinytest' testing framework
 
 version 0.3.0

@@ -40,7 +40,7 @@ out <- women %L>%
   identity() %L>%
   head() %L>%
   dump_log()
-read.csv("simple_log.csv")
+read.csv("simple.csv")
 ```
 Lets go through this step by step to see what happened. The start of the script 
 defines an output variable `out` and passes `women` to the lumberjack (`%L>%`).
@@ -134,7 +134,7 @@ out <- women %L>%
   transform(weight <- weight*0.453592) %L>%
   dump_log()
 
-read.csv("expression_log.csv",stringsAsFactors = FALSE)
+read.csv("expression.csv",stringsAsFactors = FALSE)
 ```
 
 
@@ -164,7 +164,7 @@ dat <- start_log(women, log=simple$new(verbose=FALSE))
 The effect is that no message is printed when the log is dumped to file.
 ```{r}
 out <- dat %L>% identity() %L>% dump_log()
-read.csv("simple_log.csv")
+read.csv("simple.csv")
 ```
 
 Note that the available options depend logger you use. Look at the logger's 

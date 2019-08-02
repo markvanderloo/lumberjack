@@ -38,7 +38,7 @@ LOGNAME <- "__log__"
 #'
 #' @param data An R object carrying data.
 #' @param logger \code{[character]} scalar. Logger to return. Can be
-#' \code{NULL} when a single logger is attached.
+#'   \code{NULL} when a single logger is attached.
 #' @return A logging object, or \code{NULL} if none exists.
 #' 
 #' @export
@@ -76,20 +76,43 @@ has_log <- function(data){
 #' Start logging changes on a dataset.
 #' 
 #' @param data An R object carrying data.
-#' @param log A logging object (typically an environment wrapped in an S3 class)
+#' @param logger A logging object (typically an environment wrapped in an S3 class)
+#' @param label \code{[character]} scalar. A label to attach to the logger (for loggers supporting it).
+#'
+#'
+#' @section Details:
+#' All loggers that come with \pkg{lumberjack} support labeling. The label is
+#' used by \code{dump} methods to create a unique file name for each
+#' dataset/logger combination.
+#'
+#' If label is not supplied, \code{start_log} attemtps to create a label
+#' from the name of the \code{data} variable. This (probably) fails when
+#' \code{data} is not a variable but a statement (like \code{read.csv...}).
+#' In that case the label is (silently) not set. In cases where multiple
+#' datasets are logged with the same type of logger, this could lead to
+#' overwriting of dump files, unless \code{file} is explicitly defined
+#' when calling \code{\code{\link{dump_log}}.
+#'
 #'
 #' @export
-start_log <- function(data, logger=simple$new()){
+start_log <- function(data, logger=simple$new(), label=NULL){
   if ( is.null(attr(data, LOGNAME)) ){
     attr(data, LOGNAME) <- new.env()
   }
   store <- attr(data, LOGNAME)
   newlogger <- class(logger)[[1]]
-  if ( newlogger %in% ls(store)){
-    dataset <- as.character(substitute(data))
-    warnf("Can not add second logger of class '%s' to '%s'. Ignoring"
-         , newlogger, dataset)
+  if ( newlogger %in% ls(store) ){
+    warnf("Can not add second logger of class '%s'. Ignoring", newlogger)
     return(invisible(data))
+  }
+  # loggers that have a 'dataset' slot have access to
+  # the name of the dataset
+  if ( "label" %in% ls(logger) ){
+    dataset <- as.character(substitute(data))
+    lab <- if (!is.null(label)) paste(label,collapse="") 
+    else if (length(dataset) == 1) dataset
+    else NULL
+    logger$label <- lab
   }
   store[[ class(logger)[[1]] ]] <- logger
   invisible(data)

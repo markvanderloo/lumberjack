@@ -49,6 +49,7 @@ cellwise <- R6Class("cellwise"
     , con     = NULL
     , n       = NULL 
     , verbose = NULL
+    , label   = NULL
     , key     = NULL
   , initialize = function(key, verbose=TRUE, file=file.path(tempdir(),"cellwise.csv")){
       if(missing(key)) stop("you must provide a key")
@@ -88,8 +89,12 @@ cellwise <- R6Class("cellwise"
       write.table(d,file = self$con
             , row.names=FALSE, col.names=FALSE, sep=",")
   }
-  , dump = function(file="cellwise.csv"){
-      self$con <- iclose(self$con) 
+  , dump = function(file=NULL){
+      self$con <- iclose(self$con)
+      if (is.null(file)){ 
+        file <- "cellwise.csv" 
+        if (!is.null(self$label)) file <- paste(self$label,file,sep="_")
+      }
       file.copy(from=self$tmpfile, to=file, overwrite = TRUE)
       if (self$verbose){
         msgf("Dumped a log at %s",file)
