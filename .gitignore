@@ -47,6 +47,6 @@ output/*
 *.aux
 *.log
 *.out
-
+*.tex
 
 
