@@ -1,4 +1,3 @@
-- more consistent naming: 'logger' vs 'log'
 - ?'dir' argument for dump_log (with getOption("lbj_logdir","./") a default)
 - dump to 'dataset_loggername' -> changes exstensibility api
 - verbosity level for run(?)

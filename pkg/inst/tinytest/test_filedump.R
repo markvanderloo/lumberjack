@@ -1,7 +1,7 @@
 library(lumberjack)
 ## filedump logging",{
 logger <- filedump$new(verbose=FALSE)
-i2 <- start_log(iris, log=logger) 
+i2 <- start_log(iris, logger=logger) 
 i2 <- i2 %>>%  identity()    
 i2 <- i2 %>>% {.$Sepal.Length <- .$Sepal.Length*2; .}  
 i2 <- dump_log(i2, verbose=TRUE) 

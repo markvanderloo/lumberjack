@@ -1,6 +1,7 @@
 version 0.4.0
 - Track changes without the pipe operator, using 'run'
 - Support for multiple loggers
+- Argument 'log' is now 'logger' in start_log(), dum_log() et al.
 - Switched to 'tinytest' testing framework
 
 version 0.3.0

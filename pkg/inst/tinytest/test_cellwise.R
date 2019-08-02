@@ -3,7 +3,7 @@ library(lumberjack)
 # cellwise logger
 iris$sleutel <- 1:nrow(iris)
 logfile <- tempfile()
-i2 <- start_log(iris, log=cellwise$new(key="sleutel", verbose=FALSE)) 
+i2 <- start_log(iris, logger=cellwise$new(key="sleutel", verbose=FALSE)) 
 i2 <- i2 %>>%  identity()    
 i2 <- i2 %>>% {.$Sepal.Length <- .$Sepal.Length*2; .}  
 i2 <- dump_log(i2, file=logfile, stop=TRUE) 
