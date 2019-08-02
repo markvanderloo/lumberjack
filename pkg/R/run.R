@@ -97,9 +97,21 @@ update_loggers <- function(store, envir, expr){
   invisible(NULL)
 }
 
-#' Run a file with loggers enabled.
+#' Run a file while tracking changes in data
+#'
+#' Run all code in a file. Changes in data that are tracked, (e.g.  with
+#' \code{\link{start_log}(data)}) will be followed by the assigned loggers.
+#' 
 #'
 #' @param file \code{[character]} file to run.
+#'
+#' @section Details:
+#' All code in \code{file} is executed in a new environment with \code{.GlobalEnv}
+#' as a parent.
+#'
+#'
+#'
+#' @return An environment. 
 #'
 #'
 #' @export
