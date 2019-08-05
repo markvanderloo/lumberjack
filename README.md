@@ -24,7 +24,7 @@ data.
 In the lumberjack philosophy, a programmer (analyst) should be only concerned
 with the primary process of data analyses.
 
-![](fig/datastep2.png | width=200)
+![](fig/datastep2.png)
 
 
 
