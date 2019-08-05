@@ -20,4 +20,3 @@ Imports: utils, R6
 Depends: R (>= 3.4.0)
 Suggests: tinytest
 RoxygenNote: 6.1.1
-VignetteBuilder: knitr
