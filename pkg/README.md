@@ -41,7 +41,7 @@ read.csv("mylog.csv")
 |`simple`            | Record whether data has changed or not       |
 |`cellwise`          | Record every change in every cell            |
 |`expression_logger` | Record the value of user-defined expressions |
-
+|`filedump`          | Dump data to file after each change.         |
 
 #### Extend with your own loggers
 
