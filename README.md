@@ -12,6 +12,8 @@ The `lumberjack` R package allows you to:
 - using **multiple loggers** for each dataset;
 - where loggers are **fully customizable**.
 
+[overview of functionality](./pkg)
+
 
 ### lumberjack philosophy
 
@@ -24,7 +26,7 @@ data.
 In the lumberjack philosophy, a programmer (analyst) should be only concerned
 with the primary process of data analyses.
 
-![](fig/datastep2.png | width=200)
+![](fig/datastep2.png)
 
 
 
