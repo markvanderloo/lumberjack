@@ -1,4 +1,4 @@
-## lumberjack -- the pipe operator that logs
+## Track changes in data
 [![Build Status](https://travis-ci.org/markvanderloo/lumberjack.svg?branch=master)](https://travis-ci.org/markvanderloo/lumberjack)
 [![Coverage Status](https://coveralls.io/repos/markvanderloo/lumberjack/badge.svg?branch=master&service=github)](https://coveralls.io/github/markvanderloo/lumberjack?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/lumberjack)](http://cran.r-project.org/package=lumberjack/)
@@ -8,9 +8,15 @@
 
 
 
+The `lumberjack` R package allows you to:
 
-A function composition operator ('pipe') and extensible framework
-that allows for easy logging of changes in data.
+- **track changes** in data sets as they get processed;
+- using **multiple loggers** for each dataset;
+- that are **fully customizable**.
+
+
+
+
 
 
 ### Installation

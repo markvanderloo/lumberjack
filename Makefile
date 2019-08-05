@@ -38,8 +38,9 @@ clean:
 	rm -f pkg/vignettes/*.aux
 	rm -f pkg/vignettes/*.log
 	rm -f pkg/vignettes/*.out
-	rm -f pkg/vignettes/*.pdf
+	rm -f pkg/vignettes/using_lumberjack.pdf
 	rm -f pkg/vignettes/*.toc
+	rm -f pkg/vignettes/*.csv
 	rm -rf *.Rcheck
 	rm -rf revdep
 	rm -f *.tar.gz

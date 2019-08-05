@@ -68,8 +68,7 @@ get_log <- function(data, logger=NULL){
 }
 
 has_log <- function(data){
-  store <- attr(data,LOGNAME)
-  is.null(store) || length(ls(store) == 0)
+  !is.null(attr(data,LOGNAME))
 }
 
 
