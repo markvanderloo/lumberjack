@@ -14,8 +14,8 @@ r:
  - release
 
 before_install:
-  - R -e "install.packages(c('R6','roxygen2','tinytest','knitr'))"
-  - R -e "devtools::document('./pkg')"
+  - R -e "install.packages(c('R6','roxygen2','tinytest','pkgload'))"
+  - R -e "pkgload::load_all('pkg');roxygen2::roxygenize('pkg')"
   - cd ./pkg
 
 r_packages:

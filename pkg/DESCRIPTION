@@ -18,6 +18,6 @@ URL: https://github.com/markvanderloo/lumberjack
 BugReports: https://github.com/markvanderloo/lumberjack/issues
 Imports: utils, R6
 Depends: R (>= 3.4.0)
-Suggests: knitr, rmarkdown, tinytest
+Suggests: tinytest
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
