@@ -12,12 +12,16 @@ The `lumberjack` R package allows you to:
 - using **multiple loggers** for each dataset;
 - where loggers are **fully customizable**.
 
-[overview of functionality](./pkg)
+You can get started by just adding two lines of code to your existing data
+analysis script.
+
+
+[Overview of functionality](./pkg)
 
 
 ### lumberjack philosophy
 
-Production scripts may contain many data transformations, aimd to clean,
+Production scripts may contain many data transformations, aimed to clean,
 select, model, or augment data with new variables. Analyzing the effect of each
 step is cumbersome because it involves adding a lot of code that is not
 concerned with the primary goal of the script, namely to analyze and process
