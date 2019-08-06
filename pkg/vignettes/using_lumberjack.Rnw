@@ -118,7 +118,7 @@ in this file using \code{source} and read the result from the temporary file in
 
 To check what happens with the \code{women} dataset at each step we need to do
 two things. First, we define which dataset must me tracked, in what way, and
-for what part of the script. This can be done by adding two lines of code.
+for what part of the script. This can be done by adding one line of code.
 \begin{Sinput}
   data(women) 
 
@@ -130,7 +130,6 @@ for what part of the script. This can be done by adding two lines of code.
   outfile <- tempfile(fileext=".csv")
   write.csv(women, file=outfile, row.names=FALSE)
 
-  dump_log()
 \end{Sinput}
 Second, we run our script using \code{lumberjack::run}.
 <<>>=
@@ -159,7 +158,8 @@ Summarizing, to track chages in a data set one needs to do the following.
   \code{start\_log(dataset, logger)}. When tracking multiple datasets, each
   dataset must get its own logger (see Section~\ref{sect:multiple}).
   \item Develop the analyses as usual.
-  \item Close the logger and dump the logging information.
+  \item \emph{Optionally} dump the logging information and close the logger explicitly
+   (see Section~\ref{sect:datalocation}).
   \item Run the whole file using \code{lumberjack::run}.
 \end{enumerate}
 
@@ -192,11 +192,14 @@ in Section~\ref{sect:lumberjack}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Controlling where the logging data is written}
+\label{sect:datalocation}
 The location of output is determined by the logger when \code{dump\_log} is
-called. All loggers in \pkg{lumberjack} write output to a \code{csv} file with
-default location \code{dataset\_logger.csv}. If \code{run} is used to to
-execute an R file, then the log is written in the same directory as where the R
-file resides.
+called. This is done by default by \code{run} after executing the script.  All
+loggers in \pkg{lumberjack} write output to a \code{csv} file with default
+location \code{dataset\_logger.csv}. If \code{run} is used to to execute an R
+file, then the log is written in the same directory as where the R file
+resides. You can control where and when logging information is dumped by
+calling \code{dump\_log} explicitly.
 
 For the \pkg{lumberjack} loggers, \code{dump\_log} has an argument \code{file}
 to control explicitly where logging data is saved. For example, to dump logging
