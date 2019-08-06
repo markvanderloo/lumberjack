@@ -12,7 +12,7 @@ The `lumberjack` R package allows you to:
 - using **multiple loggers** for each dataset;
 - where loggers are **fully customizable**.
 
-You can get started by just adding two lines of code to your existing data
+You can get started by just adding one line of code to your existing data
 analysis script.
 
 

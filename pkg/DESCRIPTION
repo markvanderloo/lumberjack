@@ -9,11 +9,11 @@ Authors@R: person("Mark", "van der Loo",
         role=c("aut","cre"),email="mark.vanderloo@gmail.com"
        , comment=c(ORCID="0000-0002-9807-4686"))
 Description: A framework that allows for easy logging of changes in data.
-    Main features: start tracking changes by adding two lines of code to 
+    Main features: start tracking changes by adding a single line of code to 
     an existing script. Track changes in multiple datasets, using multiple 
     loggers. Add custom-built loggers or use loggers offered by other 
     packages.
-Version: 0.3.0.5
+Version: 0.3.0.6
 URL: https://github.com/markvanderloo/lumberjack
 BugReports: https://github.com/markvanderloo/lumberjack/issues
 Imports: utils, R6

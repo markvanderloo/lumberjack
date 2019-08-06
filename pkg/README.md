@@ -3,16 +3,18 @@
 
 #### Add logging capabilities to existing analyses scripts
 
-Start tracking changes by adding two lines of code to an existing script.
+Start tracking changes by adding a single line of code to an existing script.
 
 ```
 # contents of 'script.R'
 
+mydata <- read.csv("path/to/my/data.csv")
+
+# add this line after reading the data:
 start_log(mydata, logger=simple$new())
 
 # Existing data analyses code here...
 
-dump_log(file="mylog.csv")
 ```
 Next, run the script using `lumberjack::run()`, and read the logging info.
 
@@ -20,8 +22,12 @@ Next, run the script using `lumberjack::run()`, and read the logging info.
 library(lumberjack)
 run("script.R")
 
-read.csv("mylog.csv")
+read.csv("mydata_simple.csv")
 ```
+
+Every aspact of the logging process can be customized, including 
+output file locations and the logger.
+
 
 
 #### Interactive logging with the lumberjack not-a-pipe operator.

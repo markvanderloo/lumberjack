@@ -114,6 +114,9 @@ update_loggers <- function(store, envir, expr){
 #' 
 #'
 #' @param file \code{[character]} file to run.
+#' @param auto_dump \code{[logical]} Toggle automatically dump all remaining logs
+#' after executing \code{file}.
+#'
 #'
 #' @section Details:
 #' All code in \code{file} is executed in a new environment with
@@ -141,7 +144,7 @@ update_loggers <- function(store, envir, expr){
 #'
 #' @family control
 #' @export
-run <- function(file){
+run <- function(file, auto_dump=TRUE){
   fname <- basename(file)
   dname <- dirname(file)
   oldwd <- getwd()
@@ -162,6 +165,8 @@ run <- function(file){
     eval(prog[[i]], envir=envir)
     update_loggers(store, envir, prog[[i]])
   }
+  # dump everything not dumped yet.
+  if (auto_dump) eval(envir$dump_log(), envir=envir)
 
   rm(list=c("start_log","dump_log"), envir=envir)
   envir
