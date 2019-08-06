@@ -1,5 +1,4 @@
-- dump to 'dataset_loggername' 
 - verbosity level for run(?)
 - pause/resume?
-
+- logger that tracks side effects
 
