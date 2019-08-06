@@ -5,6 +5,10 @@
 
 ### A brief overview of `lumberjack`
 
+Lumberjack separates concerns between data processing and monitoring the
+process by allowing R programmers  (analysts) to declare what objects to track,
+and how to track them.
+
 ![](https://github.com/markvanderloo/lumberjack/raw/master/fig/datastep2.png)
 
 #### Add logging capabilities to existing analyses scripts
