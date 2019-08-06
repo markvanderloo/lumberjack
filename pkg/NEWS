@@ -3,8 +3,9 @@ version 0.9.0
 - Support for multiple loggers; loggers can now support an (automatic) label
   which is used to distinguish output files when multiple datasets are tracked.
 - Argument 'log' is replaced by 'logger' in start_log(), dump_log() et al.
-- Completely new vignette
-- Switched to 'tinytest' testing framework
+- Completely new vignette.
+- Completely reviewed the reference manual.
+- Switched to 'tinytest' testing framework.
 
 version 0.3.0
 - '%L>%' is now considered the default lumberjack operator. '%>>%' remains as alias.

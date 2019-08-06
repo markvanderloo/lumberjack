@@ -116,14 +116,30 @@ update_loggers <- function(store, envir, expr){
 #' @param file \code{[character]} file to run.
 #'
 #' @section Details:
-#' All code in \code{file} is executed in a new environment with \code{.GlobalEnv}
-#' as a parent.
+#' All code in \code{file} is executed in a new environment with
+#' \code{.GlobalEnv} as a parent.
 #'
+#'
+#' @examples
+#' # create an R file, with logging.
+#' script <- "
+#' library(lumberjack)
+#' data(women)
+#' start_log(women, logger=simple$new())
+#' women$height <- women$height*2.54
+#' women$weight <- women$weight*0.453592
+#' dump_log()
+#' "
+#' write(script, file="myscript.R")
+#' # run the script
+#' lumberjack::run("myscript.R")
+#' # read the logfile
+#' read.csv("women_simple.csv")
 #'
 #'
 #' @return An environment. 
 #'
-#'
+#' @family control
 #' @export
 run <- function(file){
   fname <- basename(file)

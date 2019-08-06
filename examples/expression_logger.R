@@ -6,7 +6,7 @@ out <- women %L>%
   start_log(e) %L>%
   within(height <- height * 2) %L>%
   within(height <- height * 3) %L>%
-  dump_log(stop=TRUE,file=logfile)
+  dump_log(file=logfile)
 
 read.csv(logfile)
 

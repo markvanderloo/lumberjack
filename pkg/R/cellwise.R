@@ -8,33 +8,43 @@
 #' expression used to alter a dataset. 
 #' 
 #' @section Creating a logger:
-#' \code{cellwise$new(verbose=TRUE, file=tempfile()}
+#' \code{cellwise$new(key, verbose=TRUE, file=tempfile())}
 #' \tabular{ll}{
-#' \code{verbose}\tab toggle verbosity\cr
-#'  \code{key}\tab \code{[character|integer]} index to column that uniquely identifies a row.\cr
+#'   \code{key}\tab \code{[character|integer]} index to column that uniquely identifies a row.\cr
 #'   \code{verbose}\tab \code{[logical]} toggle verbosity.\cr
-#' \code{file}\tab [character] filename for temporaty log storage. \cr
+#'   \code{file}\tab [character] filename for temporaty log storage. \cr
 #' }
 #' 
-#' 
+#' @usage 
+#' cellwise(key, verbose=TRUE, file=tempfile())
+#'
+#' @param key \code{[character|integer]} index to column that uniquely identifies a row.
+#' @param verbose  \code{[logical]} toggle verbosity.
+#' @param file  \code{[character]} filename for temporaty log storage.
+#'
 #' @section Dump options:
-#' \code{$dump(file="cellwise.csv")}
+#'
+#' \code{$dump(file=NULL)}
 #' \tabular{ll}{
-#'   \code{file}\tab \code{[character]} location to write final output to.
+#'   \code{file}\tab \code{[character]} location to write final output to.\cr
 #' }
+#' The default location is \code{"cellwise.csv"} in an interactive session, and
+#' \code{"DATA_cellwise.csv"} in a script that executed via \code{\link{run}}.
+#' Here, \code{DATA} is the variable name of the data being tracked or the
+#' \code{label} provided with \code{\link{start_log}}.
+#' 
 #' 
 #' @section Getting data from the logger:
 #' 
-#' \code{$logdata()} Returns a data.frame (it dumps, then reads the current log).
+#' \code{$logdata()} Returns a data frame with the current log.
 #' 
 #' @section Details:
-#' At initialization, the cellwise logger opens a connection to a temporary 
-#' file. All logging info is written to that connection. When 
-#' \code{\link{dump_log}} is called, the temporary file is closed, copied to the
-#' output file, and reopened for writing. The connection is closed automatically
-#' when the logger is destroyed, for example when calling 
-#' \code{dump_log(stop=TRUE)} (the default), or \code{stop_log()} in the
-#' lumberjack pipeline.
+#' At initialization, the cellwise logger opens a connection to a temporary
+#' file. All logging info is appended to that connection. When
+#' \code{\link{dump_log}} is called, the temporary file is closed, copied to
+#' the output file, and reopened for writing. The connection is closed
+#' automatically when the logger is destroyed, for example when calling
+#' \code{\link{dump_log}()}.
 #' 
 #' @docType class
 #' @format An \code{R6} class object.

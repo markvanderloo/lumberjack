@@ -4,25 +4,32 @@
 
 #' The expression logger.
 #' 
-#' The expression logger records the result of one or more user-defined
-#' expressions. It can be used, for example to track aggregates (mean, min, max)
-#' of variables as they get processed in the data pipeline.
+#' Records the result of one or more user-defined expressions that perform
+#' calculations on the object being tracked.
 #' 
-#' 
-#' @section Creating a logger:
-#' \code{expression_logger$new(..., file="expression_log.csv", verbose=TRUE)}
+#' @section Creating a logger: 
+#' \code{expression_logger$new(..., verbose=TRUE)}
 #' \tabular{ll}{
-#' \code{...}\tab comma-separated \code{name = expression} pairs\cr
-#' \code{file}\tab \code{[character]} filename for temporaty log storage. \cr
-#' \code{verbose}\tab \code{[logical]} toggle verbosity\cr
+#' \code{...}\tab A comma-separated list of \code{name = expression} pairs. \cr
+#' \code{verbose}\tab \code{[logical]} toggle verbosity.
 #' }
-#' 
-#' 
+#'
+#' Each expression will be evaluated in the context of the object tracked with
+#' this logger. An expression is expected to have a single \code{numeric} or
+#' \code{character} output.
+#'
+#'
 #' @section Dump options:
-#' \code{$dump()}
+#'
+#' \code{$dump(file=NULL)}
 #' \tabular{ll}{
-#'   \code{}\tab Currently no options are implemented.
+#'   \code{file}\tab \code{[character]} location to write final output to.\cr
 #' }
+#' The default location is \code{"expression.csv"} in an interactive session, and
+#' \code{"DATA_expression.csv"} in a script that executed via \code{\link{run}}.
+#' Here, \code{DATA} is the variable name of the data being tracked
+#' or the \code{label} provided with \code{\link{start_log}}.
+#' 
 #' 
 #' 
 #' @docType class

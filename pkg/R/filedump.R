@@ -1,19 +1,26 @@
 
 #' The file dumping logger.
 #' 
-#' The file dumping logger dumps the most recent version of a dataset to csv 
-#' in a directory of choice. 
+#' The file dumping logger dumps the most recent version of a dataset to csv in
+#' a directory of choice. 
 #' 
 #' @section Creating a logger:
 #' 
-#' \code{filedump$new(dir=file.path(tempdir(),"timber"), prefix="step\%03d.csv", verbose=TRUE)}
+#' \code{filedump$new(dir=file.path(tempdir(),"filedump"), filename="\%sstep\%03d.csv",verbose=TRUE)}
 #' \tabular{ll}{
-#'   \code{dir}\tab Where to write the file dumps.\cr
-#'   \code{filename}\tab filename template, used with \code{\link{sprintf}} 
-#'      to create a file name.\cr
-#'   \code{verbose}\tab toggle verbosity
+#'   \code{dir}\tab \code{[character]} Directory location to write the file dumps.\cr
+#'   \code{filename}\tab \code{[character]} Template, used to create file names.
+#'                       to create a file name.\cr
+#'   \code{verbose}\tab \code{[logical]} toggle verbosity.
 #' }
 #' 
+#' File locations are created with \code{file.path(dir, file)}, where
+#' \code{file} is generated as \code{sprintf(filename, DATA, STEP)}. In
+#' interactive sessions \code{DATA=""}. In sessions where a script is executed
+#' using \code{\link{run}}, \code{DATA} is the name of the R object being
+#' tracked or the \code{label} provided with \code{\link{start_log}}.
+#' \code{STEP} a number that increases at each dump.
+#'
 #' @section Dump options: 
 #' 
 #' \code{$dump(...)}
@@ -34,7 +41,16 @@
 #' @docType class
 #' @format An \code{R6} class object.
 #' 
-#' 
+#' @examples
+#' logger <- filedump$new()
+#'
+#' out <- women %L>%
+#'   start_log(logger) %L>%
+#'   within(height <- height * 2) %L>%
+#'   within(height <- height * 3) %L>%
+#'   dump_log()
+#' dir(file.path(tempdir(),"filedump"))
+#'
 #' 
 #' @family loggers
 #' @export
@@ -45,7 +61,7 @@ filedump <- R6Class("filedump"
     , verbose = NULL
     , filename = NULL
     , label=NULL
-    , initialize = function(dir = tempdir()
+    , initialize = function(dir = file.path(tempdir(),"filedump")
        , filename="%sstep%03d.csv", verbose = TRUE){
       self$n <- 0
       self$dir <- dir

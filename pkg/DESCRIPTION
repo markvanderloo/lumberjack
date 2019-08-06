@@ -13,7 +13,7 @@ Description: A framework that allows for easy logging of changes in data.
     an existing script. Track changes in multiple datasets, using multiple 
     loggers. Add custom-built loggers or use loggers offered by other 
     packages.
-Version: 0.3.0.4
+Version: 0.3.0.5
 URL: https://github.com/markvanderloo/lumberjack
 BugReports: https://github.com/markvanderloo/lumberjack/issues
 Imports: utils, R6

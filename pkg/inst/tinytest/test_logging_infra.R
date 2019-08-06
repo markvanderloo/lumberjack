@@ -22,7 +22,7 @@ out <- 1:3 %L>%
   start_log(simple$new(verbose=FALSE)) %L>%
   {.*2} %L>% 
   dump_log(file=tempfile()) 
-expect_null(attributes(out))
+expect_true(is.null(attributes(out)))
 
 
 

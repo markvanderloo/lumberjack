@@ -1,25 +1,13 @@
-#' The pipe operator that logs
+#' Track changes in data
 #' 
+#' This package allows you to track changes in R objects by defining one or
+#' more loggers for each object. There are a number of built-in loggers and
+#' users (or package authors) can create their own loggers.  To get started
+#' please have a look at the \href{../doc/using_lumbjerjack.pdf}{using
+#' lumberjack} vignette.
 #' 
-#' 
-#' 
-#' @section Overview:
-#' 
-#' The lumberjack \code{\%L>\%} behaves much like other 'pipe' operators
-#' available in R (e.g.
-#' \href{https://CRAN.R-project.org/package=magrittr}{magrittr} ,
-#' \href{https://github.com/piccolbo/yapo}{yapo},
-#' \href{https://CRAN.R-project.org/package=pipeR}{pipeR}) with one exception:
-#' it allows for logging the changes made to the data by the functions acting
-#' on it.
-#' 
-#' The actual logging mechanism is completely flexible and extensible. This
-#' package comes with a few predefined loggers, but users and package authors
-#' can write their own logger that follows the lumberjack API.
-#' 
-#' See the \href{../doc/intro.html}{Introductory vignette} to start logging
-#' or the \href{../doc/extending.html}{extending lumberjack} manual to start 
-#' writing your own loggers.
+#' @author
+#' Mark van der Loo
 #'
 #'
 #' @docType package
@@ -36,11 +24,14 @@ LOGNAME <- "__log__"
 #' Get log object from a data item
 #'
 #'
-#' @param data An R object carrying data.
+#' @param data An R object. 
 #' @param logger \code{[character]} scalar. Logger to return. Can be
 #'   \code{NULL} when a single logger is attached.
 #' @return A logging object, or \code{NULL} if none exists.
 #' 
+#'
+#' @family control
+#'
 #' @export
 get_log <- function(data, logger=NULL){
   store <- attr(data, which=LOGNAME, exact=TRUE)
@@ -72,27 +63,37 @@ has_log <- function(data){
 }
 
 
-#' Start logging changes on a dataset.
+#' Start tracking an R object
 #' 
-#' @param data An R object carrying data.
+#' @param data An R object.
 #' @param logger A logging object (typically an environment wrapped in an S3 class)
-#' @param label \code{[character]} scalar. A label to attach to the logger (for loggers supporting it).
+#' @param label \code{[character]} scalar. A label to attach to the logger (for
+#'   loggers supporting it).
 #'
 #'
 #' @section Details:
 #' All loggers that come with \pkg{lumberjack} support labeling. The label is
 #' used by \code{dump} methods to create a unique file name for each
-#' dataset/logger combination.
+#' object/logger combination.
 #'
-#' If label is not supplied, \code{start_log} attemtps to create a label
-#' from the name of the \code{data} variable. This (probably) fails when
-#' \code{data} is not a variable but a statement (like \code{read.csv...}).
-#' In that case the label is (silently) not set. In cases where multiple
-#' datasets are logged with the same type of logger, this could lead to
-#' overwriting of dump files, unless \code{file} is explicitly defined
-#' when calling \code{\code{\link{dump_log}}.
+#' If \code{label} is not supplied, \code{start_log} attemtps to create a label
+#' from the name of the \code{data} variable. This probably fails when
+#' \code{data} is not a variable but an expression (like \code{read.csv...}). A
+#' label is also not created when data is passed via the lumberjack not-a-pipe
+#' operator.  In that case the label is (silently) not set. In cases where
+#' multiple datasets are logged with the same type of logger, this could lead
+#' to overwriting of dump files, unless \code{file} is explicitly defined when
+#' calling \code{\link{dump_log}}.
 #'
+#' @examples
+#' women %L>%
+#'   start_log(logger=simple$new()) %L>%
+#'   transform(height_cm = height*2.52) %L>%
+#'   dump_log()
+#' logdata <- read.csv("simple.csv")
+#' head(logdata)
 #'
+#' @family control
 #' @export
 start_log <- function(data, logger=simple$new(), label=NULL){
   if ( is.null(attr(data, LOGNAME)) ){
@@ -133,16 +134,33 @@ all_loggers <- function(data){
   else ls(store)
 }
 
-#' Dump a log
+#' Dump logging data
 #' 
-#' @param data data set containing a log
+#' Calls the \code{$dump(...)} method of logger(s) tracking an R object.
+#' 
+#' 
+#' @param data An R object tracked by one or more loggers.
 #' @param logger \code{[character]} vector. Class names of loggers to dump (e.g.
 #'   \code{"simple"}).  When \code{loggers=NULL}, all loggers are dumped
-#'   for this data.
-#' @param stop stop logging after the dump?
-#' @param ... Arguments past to the \code{dump} method of the logger.
+#'   for this object.
+#' @param stop \code{[logical]} stop logging after the dump? Removes the
+#'   logger(s) tracking the object.
+#' @param ... Arguments passed to the \code{dump} method of the logger.
 #'
-#' @return  The data, invisibly
+#' @return  \code{data}, invisibly.
+#' 
+#' 
+#' @family control 
+#' 
+#' 
+#' @examples
+#' women %L>%
+#'   start_log(logger=simple$new()) %L>%
+#'   transform(height_cm = height*2.52) %L>%
+#'   dump_log()
+#' logdata <- read.csv("simple.csv")
+#' head(logdata)
+#' 
 #' 
 #' @export
 dump_log <- function(data, logger=NULL,stop=TRUE, ...){
@@ -160,13 +178,23 @@ dump_log <- function(data, logger=NULL,stop=TRUE, ...){
 #' Calls the logger's \code{$stop()} method if it exists, and removes
 #' the logger as attribute from \code{data}.
 #' 
-#' @param data An R object carrying data
+#' @param data An R object.
 #' @param logger \code{[character]} vector. Class names of loggers to dump (e.g.
 #'   \code{"simple"}).  When \code{loggers=NULL}, all loggers are stopped and
 #'   removed for this data.
 #' @param ... Passed to the logger's \code{stop} method, if it exists.
 #' 
 #' @return The data, invisibly.
+#'
+#'
+#' @examples
+#' women %L>%
+#'   start_log(logger=simple$new()) %L>%
+#'   transform(height_cm = height*2.52) %L>%
+#'   stop_log() # stop logging, do not dump tracking data.
+#'
+#'
+#' @family control
 #' @export
 stop_log <- function(data, logger=NULL, ...){
   if (is.null(logger)) logger <- all_loggers(data)
@@ -182,9 +210,8 @@ stop_log <- function(data, logger=NULL, ...){
 
 #' The lumberjack operator
 #' 
-#' A not-a-pipe operator that logs
+#' The not-a-pipe operator that tracks changes in data.
 #' 
-#'
 #'
 #' @param lhs Input value
 #' @param rhs Function call or 'dotted' expression (see below). 
@@ -223,11 +250,10 @@ stop_log <- function(data, logger=NULL, ...){
 #' log by calling the logger's \code{$add()} method, with arguments \code{meta},
 #' \code{input}, \code{output}. Here, \code{meta} is a list with information on
 #' the operations performed, and input and output are the left-hand-side and the
-#' result, respectively (See also: \href{../doc/extending.html}{extending
-#' lumberjack}).
+#' result, respectively. 
 #' 
 #' @example ../examples/lumberjack.R
-#' 
+#' @family control
 #' @export 
 `%>>%` <- function(lhs, rhs){
   store <- attr(lhs, LOGNAME)
