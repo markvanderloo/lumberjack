@@ -35,7 +35,7 @@ run("script.R")
 read.csv("mydata_simple.csv")
 ```
 
-Every aspact of the logging process can be customized, including 
+Every aspect of the logging process can be customized, including 
 output file locations and the logger.
 
 
