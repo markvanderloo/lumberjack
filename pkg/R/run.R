@@ -124,6 +124,8 @@ update_loggers <- function(store, envir, expr){
 #'
 #'
 #' @examples
+#' # using 'dontrun'
+#' \dontrun{
 #' # create an R file, with logging.
 #' script <- "
 #' library(lumberjack)
@@ -138,7 +140,7 @@ update_loggers <- function(store, envir, expr){
 #' lumberjack::run_file("myscript.R")
 #' # read the logfile
 #' read.csv("women_simple.csv")
-#'
+#' }
 #'
 #' @return An environment. 
 #'

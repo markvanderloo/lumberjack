@@ -1,4 +1,7 @@
-version 0.9.0
+version 1.0.1
+- fixed error caught on CRAN (an example wrote locally)
+
+version 1.0.0
 - Start tracking changes in R objects, by adding a single line of code to
   an existing script.
 - New function 'run_file', track changes in scripts without '%L>%'
