@@ -29,7 +29,7 @@
 #'   \code{file}\tab \code{[character]} location to write final output to.\cr
 #' }
 #' The default location is \code{"cellwise.csv"} in an interactive session, and
-#' \code{"DATA_cellwise.csv"} in a script that executed via \code{\link{run}}.
+#' \code{"DATA_cellwise.csv"} in a script that executed via \code{\link{run_file}}.
 #' Here, \code{DATA} is the variable name of the data being tracked or the
 #' \code{label} provided with \code{\link{start_log}}.
 #' 

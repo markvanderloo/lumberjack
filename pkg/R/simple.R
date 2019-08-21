@@ -23,7 +23,7 @@
 #' }
 #' 
 #' The default location is \code{"simple.csv"} in an interactive session, and
-#' \code{"DATA_simple.csv"} in a script that executed via \code{\link{run}}.
+#' \code{"DATA_simple.csv"} in a script that executed via \code{\link{run_file}}.
 #' Here, \code{DATA} is the variable name of the data being tracked 
 #' or the \code{label} provided with \code{\link{start_log}}.
 #'

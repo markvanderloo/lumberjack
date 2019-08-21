@@ -131,12 +131,12 @@ for what part of the script. This can be done by adding one line of code.
   write.csv(women, file=outfile, row.names=FALSE)
 
 \end{Sinput}
-Second, we run our script using \code{lumberjack::run}.
+Second, we run our script using \code{lumberjack::run\_file}.
 <<>>=
 library(lumberjack)
-out <- run("process.R")
+out <- run_file("process.R")
 @
-All variables created during \code{run} are stored in \code{out}.
+All variables created during \code{run\_file} are stored in \code{out}.
 <<>>=
 head(out$women, 3)
 @
@@ -160,7 +160,7 @@ Summarizing, to track chages in a data set one needs to do the following.
   \item Develop the analyses as usual.
   \item \emph{Optionally} dump the logging information and close the logger explicitly
    (see Section~\ref{sect:datalocation}).
-  \item Run the whole file using \code{lumberjack::run}.
+  \item Run the whole file using \code{lumberjack::run\_file}.
 \end{enumerate}
 
 
@@ -183,7 +183,7 @@ keeping an old version of the data in memory for comparison. When the user
 calls \code{dump\_log()} it makes sure that the `dump' functionality of the
 active logger(s) is called.
 
-We have already seen the \code{run()} implementation of the \pkg{lumberjack} 
+We have already seen the \code{run\_file()} implementation of the \pkg{lumberjack} 
 runtime. There is a second implementation for interactive use. This is
 the so-called lumberjack `pipe' operator \code{\%L>\%}, which is discussed
 in Section~\ref{sect:lumberjack}.
@@ -194,9 +194,9 @@ in Section~\ref{sect:lumberjack}.
 \section{Controlling where the logging data is written}
 \label{sect:datalocation}
 The location of output is determined by the logger when \code{dump\_log} is
-called. This is done by default by \code{run} after executing the script.  All
+called. This is done by default by \code{run\_file} after executing the script.  All
 loggers in \pkg{lumberjack} write output to a \code{csv} file with default
-location \code{dataset\_logger.csv}. If \code{run} is used to to execute an R
+location \code{dataset\_logger.csv}. If \code{run\_file} is used to to execute an R
 file, then the log is written in the same directory as where the R file
 resides. You can control where and when logging information is dumped by
 calling \code{dump\_log} explicitly.

@@ -17,7 +17,7 @@
 #' File locations are created with \code{file.path(dir, file)}, where
 #' \code{file} is generated as \code{sprintf(filename, DATA, STEP)}. In
 #' interactive sessions \code{DATA=""}. In sessions where a script is executed
-#' using \code{\link{run}}, \code{DATA} is the name of the R object being
+#' using \code{\link{run_file}}, \code{DATA} is the name of the R object being
 #' tracked or the \code{label} provided with \code{\link{start_log}}.
 #' \code{STEP} a number that increases at each dump.
 #'

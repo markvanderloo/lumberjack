@@ -1,7 +1,3 @@
-[![CRAN](http://www.r-pkg.org/badges/version/lumberjack)](http://cran.r-project.org/package=lumberjack/)
-[![status](https://tinyverse.netlify.com/badge/lumberjack)](https://CRAN.R-project.org/package=lumberjack)
-[![Downloads](http://cranlogs.r-pkg.org/badges/lumberjack)](http://www.r-pkg.org/pkg/lumberjack)[![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
-
 
 ### A brief overview of `lumberjack`
 

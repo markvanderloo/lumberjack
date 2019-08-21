@@ -25,7 +25,7 @@ log_capture <- function(store){
         return(invisible(data))
       }
   
-      # loggers that have a 'dataset' slot have access to
+      # loggers that have a 'label' slot have access to
       # the name of the dataset
       if ( "label" %in% ls(logger) ){
         dataset <- as.character(substitute(data))
@@ -135,7 +135,7 @@ update_loggers <- function(store, envir, expr){
 #' "
 #' write(script, file="myscript.R")
 #' # run the script
-#' lumberjack::run("myscript.R")
+#' lumberjack::run_file("myscript.R")
 #' # read the logfile
 #' read.csv("women_simple.csv")
 #'
@@ -144,7 +144,7 @@ update_loggers <- function(store, envir, expr){
 #'
 #' @family control
 #' @export
-run <- function(file, auto_dump=TRUE){
+run_file <- function(file, auto_dump=TRUE){
   fname <- basename(file)
   dname <- dirname(file)
   oldwd <- getwd()
