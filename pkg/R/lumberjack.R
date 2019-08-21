@@ -86,11 +86,12 @@ has_log <- function(data){
 #' calling \code{\link{dump_log}}.
 #'
 #' @examples
+#' logfile <- tempfile(fileext=".csv")
 #' women %L>%
 #'   start_log(logger=simple$new()) %L>%
 #'   transform(height_cm = height*2.52) %L>%
-#'   dump_log()
-#' logdata <- read.csv("simple.csv")
+#'   dump_log(file=logfile)
+#' logdata <- read.csv(logfile)
 #' head(logdata)
 #'
 #' @family control
@@ -154,11 +155,12 @@ all_loggers <- function(data){
 #' 
 #' 
 #' @examples
+#' logfile <- tempfile(fileext=".csv")
 #' women %L>%
 #'   start_log(logger=simple$new()) %L>%
 #'   transform(height_cm = height*2.52) %L>%
-#'   dump_log()
-#' logdata <- read.csv("simple.csv")
+#'   dump_log(file=logfile)
+#' logdata <- read.csv(logfile)
 #' head(logdata)
 #' 
 #' 
@@ -188,11 +190,13 @@ dump_log <- function(data, logger=NULL,stop=TRUE, ...){
 #'
 #'
 #' @examples
+#' logfile <- tempfile(fileext=".csv")
 #' women %L>%
 #'   start_log(logger=simple$new()) %L>%
 #'   transform(height_cm = height*2.52) %L>%
-#'   stop_log() # stop logging, do not dump tracking data.
-#'
+#'   dump_log(file=logfile)
+#' logdata <- read.csv(logfile)
+#' head(logdata)
 #'
 #' @family control
 #' @export

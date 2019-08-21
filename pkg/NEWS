@@ -1,5 +1,8 @@
+version 1.0.2
+- fixed error caught on CRAN/Debian (an example wrote locally)
+
 version 1.0.1
-- fixed error caught on CRAN (an example wrote locally)
+- fixed error caught on CRAN/Debian (an example wrote locally)
 
 version 1.0.0
 - Start tracking changes in R objects, by adding a single line of code to
