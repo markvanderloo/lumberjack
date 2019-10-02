@@ -16,7 +16,8 @@ You can get started by just adding one line of code to your existing data
 analysis script.
 
 
-[Overview of functionality](./pkg)
+- [Overview of functionality](./pkg)
+- [Talk at the eRum2018 meeting (Budapest](https://www.youtube.com/watch?v=DNZs0CHBU4s)
 
 
 ### lumberjack philosophy
