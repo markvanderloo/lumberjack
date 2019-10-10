@@ -1,3 +1,7 @@
+version 1.1.0
+- cellwise logger now warns when it encounters a duplicate key (this will corrupt
+  logging info).
+
 version 1.0.3
 - fixed test that triggered a CRAN error because it wrote in the installed
   area (Thanks to Kurt Hornik).

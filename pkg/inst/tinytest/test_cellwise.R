@@ -31,4 +31,10 @@ iris %>>% start_log(xx) %>>% head(149L) %>>% stop_log()
 d <- xx$logdata()
 expect_equal(nrow(d),ncol(iris)-1L)
 
+d1 <- data.frame(id=c(1,1),x=1:2)
+d2 <- data.frame(id=c(1,1),x=1:2)
+
+logger <- cellwise$new(key="id")
+expect_warning(logger$add(meta=list(src="haha"),input=d1,output=d2))
+
 

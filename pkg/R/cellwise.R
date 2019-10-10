@@ -152,6 +152,10 @@ keyframe <- function(x, key){
 }
 
 celldiff <- function(x,y,key){
+  if ( anyDuplicated(x[,key]) || anyDuplicated(y[,key]) ){
+    warnf("Detected duplicates in key variable '%s'. Logging data corrupted.",key)
+  }
+  
   kx <- keyframe(x,key)
   ky <- keyframe(y,key)
   kxy <- merge(kx,ky,by=c("key","variable"), all=TRUE)
