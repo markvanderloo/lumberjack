@@ -116,11 +116,17 @@ update_loggers <- function(store, envir, expr){
 #' @param file \code{[character]} file to run.
 #' @param auto_dump \code{[logical]} Toggle automatically dump all remaining logs
 #' after executing \code{file}.
+#' @param envir \code{[environment]} to run the code in. By default a new environment will be created
+#' with \code{.GlobalEnv} as parent.
 #'
 #'
 #' @section Details:
-#' All code in \code{file} is executed in a new environment with
-#' \code{.GlobalEnv} as a parent.
+#' \code{run\_file} runs code in a separate environment, and returns the environment with all
+#' the variables created by the code. \code{source\_file} acts like \code{\link{source}} and 
+#' runs all the code in the current global workspace (\code{.GlobalEnv}).
+#' 
+#'
+#' @return The environment where the code was executed, invisibly.
 #'
 #'
 #' @examples
@@ -142,11 +148,9 @@ update_loggers <- function(store, envir, expr){
 #' read.csv("women_simple.csv")
 #' }
 #'
-#' @return An environment. 
-#'
 #' @family control
 #' @export
-run_file <- function(file, auto_dump=TRUE){
+run_file <- function(file, auto_dump=TRUE, envir=NULL){
   fname <- basename(file)
   dname <- dirname(file)
   oldwd <- getwd()
@@ -154,7 +158,7 @@ run_file <- function(file, auto_dump=TRUE){
   setwd(dname)
 
 
-  envir=new.env(parent=.GlobalEnv)
+  if (is.null(envir)) envir=new.env(parent=.GlobalEnv)
 
   store <- new.env()
   
@@ -171,6 +175,14 @@ run_file <- function(file, auto_dump=TRUE){
   if (auto_dump) eval(envir$dump_log(), envir=envir)
 
   rm(list=c("start_log","dump_log"), envir=envir)
-  envir
+  invisible(envir)
 }
+
+#' @rdname run_file
+#' @export
+source_file <- function(file, auto_dump=TRUE){
+  run_file(file, auto_dump=auto_dump, envir=.GlobalEnv)
+}
+
+
 
