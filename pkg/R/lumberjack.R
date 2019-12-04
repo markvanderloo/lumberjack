@@ -184,7 +184,8 @@ dump_log <- function(data, logger=NULL,stop=TRUE, ...){
 #' @param logger \code{[character]} vector. Class names of loggers to dump (e.g.
 #'   \code{"simple"}).  When \code{loggers=NULL}, all loggers are stopped and
 #'   removed for this data.
-#' @param ... Passed to the logger's \code{stop} method, if it exists.
+#' @param dump \code{['logical']} Toggle dump log file.
+#' @param ... Passed to the logger's \code{dump} method, if it exists.
 #' 
 #' @return The data, invisibly.
 #'
@@ -200,11 +201,12 @@ dump_log <- function(data, logger=NULL,stop=TRUE, ...){
 #'
 #' @family control
 #' @export
-stop_log <- function(data, logger=NULL, ...){
+stop_log <- function(data, logger=NULL, dump=TRUE, ...){
   if (is.null(logger)) logger <- all_loggers(data)
   for ( lggr in logger ){
     log <- get_log(data, logger = lggr)
-    if (is.function(log$stop)) log$stop(...)
+    if (isTRUE(dump)) log$dump(...)
+    if (is.function(log$stop)) log$stop()
     remove_log(data, lggr)
   }
   invisible(data)

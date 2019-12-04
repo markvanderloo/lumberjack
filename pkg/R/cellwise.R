@@ -121,7 +121,7 @@ cellwise <- R6Class("cellwise"
 
 # A reasonable connection closer
 iclose <- function(con,...){
-  close(con,...)
+  if (!is.null(con)) close(con,...)
   invisible(NULL)
 }
 
