@@ -22,11 +22,11 @@ start_log(mydata, logger=simple$new())
 # Existing data analyses code here...
 
 ```
-Next, run the script using `lumberjack::run()`, and read the logging info.
+Next, run the script using `lumberjack::run_file()`, and read the logging info.
 
 ```
 library(lumberjack)
-run("script.R")
+run_file("script.R")
 
 read.csv("mydata_simple.csv")
 ```
