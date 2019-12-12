@@ -55,46 +55,48 @@
 #' @family loggers
 #' @export
 filedump <- R6Class("filedump"
-  , public=list(
-    n = NULL
-    , dir = NULL
-    , verbose = NULL
-    , filename = NULL
-    , label=NULL
-    , initialize = function(dir = file.path(tempdir(),"filedump")
+  , private=list(
+      n = NULL
+      , dir = NULL
+      , verbose = NULL
+      , filename = NULL
+      , label=NULL
+    )
+  , public = list(
+    initialize = function(dir = file.path(tempdir(),"filedump")
        , filename="%sstep%03d.csv", verbose = TRUE){
-      self$n <- 0
-      self$dir <- dir
+      private$n <- 0
+      private$dir <- dir
       if (!dir.exists(dir)){
         dir.create(dir,recursive = TRUE)
         if (verbose){
           msgf("Created %s", normalizePath(dir))
         }
       }
-      self$verbose <- verbose
-      self$filename <- filename
+      private$verbose <- verbose
+      private$filename <- filename
     }
     , add = function(meta, input, output){
-        prefix <- if (is.null(self$label)) "" else paste0(self$label,"_")
-        outname <- file.path(self$dir, sprintf(self$filename, prefix, self$n))
-        if (self$n == 0)
+        prefix <- if (is.null(private$label)) "" else paste0(private$label,"_")
+        outname <- file.path(private$dir, sprintf(private$filename, prefix, private$n))
+        if (private$n == 0)
           write.csv(input, file=outname, row.names=FALSE)
-        self$n <- self$n + 1
-        outname <- file.path(self$dir, sprintf(self$filename, prefix, self$n))
+        private$n <- private$n + 1
+        outname <- file.path(private$dir, sprintf(private$filename, prefix, private$n))
         write.csv(output, file=outname, row.names=FALSE)
     }
     , dump = function(...){
         
-        if ( self$verbose ){
-          msgf("Filedumps were written to %s", normalizePath(self$dir))
+        if ( private$verbose ){
+          msgf("Filedumps were written to %s", normalizePath(private$dir))
         }
     }
    , logdata = function(){
        # this crashes covr
-       # if (!dir.exists(self$dir)){
-       #   stopf("The directory %s does not exist.",self$dir)
+       # if (!dir.exists(private$dir)){
+       #   stopf("The directory %s does not exist.",private$dir)
        # }
-       fl <- dir(self$dir,full.names = TRUE)
+       fl <- dir(private$dir,full.names = TRUE)
        lapply(fl, read.csv)
     }
 ))

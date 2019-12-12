@@ -40,44 +40,46 @@
 #' @family loggers
 #' @export
 expression_logger <- R6Class("expression_loggger"
-  , public=list(
-    step = NULL
-    , s=0
-    , expr = NULL
-    , expression = NULL
-    , result = NULL
-    , verbose=TRUE
-    , label=NULL
-    , initialize = function(..., verbose=TRUE){
-        self$step       <- c()
-        self$expression <- c()
-        self$verbose    <- verbose
-        self$expr <- as.list(substitute(list(...))[-1])
+  , private=list(
+      step = NULL
+      , s=0
+      , expr = NULL
+      , expression = NULL
+      , result = NULL
+      , verbose=TRUE
+      , label=NULL
+    )
+  , public = list(
+     initialize = function(..., verbose=TRUE){
+        private$step       <- c()
+        private$expression <- c()
+        private$verbose    <- verbose
+        private$expr <- as.list(substitute(list(...))[-1])
     }
     , add = function(meta, input, output){
-        self$s <- self$s + 1
-        self$step   <- append(self$step, self$s)
-        self$expression <- append(self$expression, meta$src)
-        out <- lapply(self$expr, function(e) with(output, eval(e)))
+        private$s <- private$s + 1
+        private$step   <- append(private$step, private$s)
+        private$expression <- append(private$expression, meta$src)
+        out <- lapply(private$expr, function(e) with(output, eval(e)))
         out <- do.call(data.frame, out)
-        if(is.null(self$result)){
-          self$result <- out
+        if(is.null(private$result)){
+          private$result <- out
         } else {
-          self$result <- rbind(self$result, out)
+          private$result <- rbind(private$result, out)
         }
     }
     , dump = function(file=NULL,...){
         if (is.null(file)){
           file <- "expression.csv"
-          if (!is.null(self$label) && self$label != "") file <- paste(self$label, file, sep="_")
+          if (!is.null(private$label) && private$label != "") file <- paste(private$label, file, sep="_")
         }
         d <- cbind(
-              step       = self$step
-            , expression = self$expression
-            , self$result
+              step       = private$step
+            , expression = private$expression
+            , private$result
             , stringsAsFactors = FALSE)
         write.csv(d, file=file , row.names=FALSE)
-        if( self$verbose ) lumberjack:::msgf("Dumped a log at %s", file)
+        if( private$verbose ) lumberjack:::msgf("Dumped a log at %s", file)
     }
   )
 )

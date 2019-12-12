@@ -54,20 +54,22 @@
 #' @family loggers
 #' @export
 cellwise <- R6Class("cellwise"
-  , public = list(
+  , private = list(
     tmpfile   = NULL
     , con     = NULL
     , n       = NULL 
     , verbose = NULL
     , label   = NULL
     , key     = NULL
-  , initialize = function(key, verbose=TRUE, file=file.path(tempdir(),"cellwise.csv")){
+  )
+  , public = list(
+    initialize = function(key, verbose=TRUE, file=file.path(tempdir(),"cellwise.csv")){
       if(missing(key)) stop("you must provide a key")
-      self$tmpfile = file
-      self$con = file(self$tmpfile, open="wt")
-      self$n <- 0
-      self$verbose <- verbose
-      self$key <- key
+      private$tmpfile = file
+      private$con = file(private$tmpfile, open="wt")
+      private$n <- 0
+      private$verbose <- verbose
+      private$key <- key
       write.csv(
         data.frame(
           step=integer(0)
@@ -78,43 +80,43 @@ cellwise <- R6Class("cellwise"
           , old=character(0)
           , new=character(0)
         )
-        , file=self$con
+        , file=private$con
         , row.names=FALSE
       )
   }
   , stop = function(...){
-       self$con <- iclose(self$con)
+       private$con <- iclose(private$con)
   }
   , add = function(meta, input, output){
-      if (!is_open(self$con)) return()
-      self$n <- self$n+1
+      if (!is_open(private$con)) return()
+      private$n <- private$n+1
       # timestamp
       ts <- strftime(Sys.time(),usetz=TRUE)
-      d <- celldiff(input, output, self$key)
+      d <- celldiff(input, output, private$key)
       if (nrow(d) == 0) return()
-      d$step <- self$n
+      d$step <- private$n
       d$time <- ts
       d$expression <- meta$src
       d <- d[c(5:7,1:4)]
-      write.table(d,file = self$con
+      write.table(d,file = private$con
             , row.names=FALSE, col.names=FALSE, sep=",")
   }
   , dump = function(file=NULL){
-      self$con <- iclose(self$con)
+      private$con <- iclose(private$con)
       if (is.null(file)){ 
         file <- "cellwise.csv" 
-        if (!is.null(self$label) && self$label != "" ) file <- paste(self$label,file,sep="_")
+        if (!is.null(private$label) && private$label != "" ) file <- paste(private$label,file,sep="_")
       }
-      file.copy(from=self$tmpfile, to=file, overwrite = TRUE)
-      if (self$verbose){
+      file.copy(from=private$tmpfile, to=file, overwrite = TRUE)
+      if (private$verbose){
         msgf("Dumped a log at %s",file)
       }
   }
   , finalize = function(){
-    if (is_open(self$con)) close(self$con)
+    if (is_open(private$con)) close(private$con)
   }
   , logdata = function(){
-     read.csv(self$tmpfile)
+     read.csv(private$tmpfile)
   }
   )
 )

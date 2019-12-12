@@ -40,44 +40,47 @@
 #' @family loggers
 #' @export
 simple <- R6Class("simple"
-  , public=list(
-    n = NULL
-    , store = NULL
-    , verbose = NULL
-    , label = NULL
-    , initialize = function( verbose = TRUE){
-      self$n <- 0
-      self$store <- new.env()
-      self$verbose <- verbose
+  , private = list(
+      n = NULL
+      , store = NULL
+      , verbose = NULL
+      , label = NULL
+    )
+  , public = list(
+    initialize = function( verbose = TRUE){
+      private$n <- 0
+      private$store <- new.env()
+      private$verbose <- verbose
     }
     , add = function(meta, input, output){
-      self$n <- self$n + 1
-      logname <- sprintf("step%03d",self$n)
-        logdat <- data.frame(step = self$n, time = Sys.time()
+      private$n <- private$n + 1
+      logname <- sprintf("step%03d",private$n)
+        logdat <- data.frame(step = private$n, time = Sys.time()
                    , expression  = meta$src
                    , changed = !identical(input, output)
                    , stringsAsFactors = FALSE) 
-      self$store[[logname]] <- logdat
+      private$store[[logname]] <- logdat
       
     }
     , dump = function(file=NULL,...){
-        log_df <- do.call(rbind,mget(ls(self$store), self$store))
+        log_df <- do.call(rbind,mget(ls(private$store), private$store))
         if (is.null(file)){ 
           file <- "simple.csv"
-          if (!is.null(self$label) && self$label != "" ) file <- paste(self$label,file,sep="_")
+          if (!is.null(private$label) && private$label != "" ) file <- paste(private$label,file,sep="_")
         }
         write.csv(log_df, file=file, row.names = FALSE,...)
-        if (is.character(file) && self$verbose ){
+        if (is.character(file) && private$verbose ){
           msgf("Dumped a log at %s", normalizePath(file))
         }
     }
     , logdata = function(){
-        v <- self$verbose
-        self$verbose <- FALSE
+        v <- private$verbose
+        private$verbose <- FALSE
         fl <- tempfile()
         self$dump(file=fl)
         out <- read.csv(fl)
-        self$verbose <- v
+        private$verbose <- v
         out
     }
-))
+  )
+)
