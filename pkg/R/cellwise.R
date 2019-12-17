@@ -44,7 +44,7 @@
 #' \code{\link{dump_log}} is called, the temporary file is closed, copied to
 #' the output file, and reopened for writing. The connection is closed
 #' automatically when the logger is destroyed, for example when calling
-#' \code{\link{dump_log}()}.
+#' \code{\link{stop_log}()}.
 #' 
 #' @docType class
 #' @format An \code{R6} class object.

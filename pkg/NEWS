@@ -4,7 +4,7 @@ version 1.1.0
 - 'run_file' gains argument 'envir'.
 - new function 'source_file', with behaviour close to 'source'.
 - stop_log now has 'dump' argument (default: TRUE) and passes ellipsis to $dump() method.
-- Internal change: loggers now store internal data in private list.
+- Internal change: loggers now store internal data privately
 
 version 1.0.3
 - fixed test that triggered a CRAN error because it wrote in the installed

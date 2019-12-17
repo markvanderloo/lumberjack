@@ -19,7 +19,7 @@
 #' interactive sessions \code{DATA=""}. In sessions where a script is executed
 #' using \code{\link{run_file}}, \code{DATA} is the name of the R object being
 #' tracked or the \code{label} provided with \code{\link{start_log}}.
-#' \code{STEP} a number that increases at each dump.
+#' \code{STEP} is a counter that increases at each dump.
 #'
 #' @section Dump options: 
 #' 
