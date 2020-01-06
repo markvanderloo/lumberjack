@@ -1,4 +1,6 @@
 version 1.1.0
+- the 'file' argument in 'cellwise$new' is now called 'tempfile' to better reflect
+  it's purpose.
 - cellwise logger now warns when it encounters a duplicate key (this will corrupt
   logging info).
 - 'run_file' gains argument 'envir'.

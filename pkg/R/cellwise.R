@@ -12,15 +12,15 @@
 #' \tabular{ll}{
 #'   \code{key}\tab \code{[character|integer]} index to column that uniquely identifies a row.\cr
 #'   \code{verbose}\tab \code{[logical]} toggle verbosity.\cr
-#'   \code{file}\tab [character] filename for temporaty log storage. \cr
+#'   \code{tempfile}\tab [character] filename for temporaty log storage. \cr
 #' }
 #' 
 #' @usage 
-#' cellwise(key, verbose=TRUE, file=tempfile())
+#' cellwise(key, verbose=TRUE, tempfile=file.path(tempdir(),"cellwise.csv"))
 #'
 #' @param key \code{[character|integer]} index to column that uniquely identifies a row.
 #' @param verbose  \code{[logical]} toggle verbosity.
-#' @param file  \code{[character]} filename for temporaty log storage.
+#' @param tempfile  \code{[character]} filename for temporaty log storage.
 #'
 #' @section Dump options:
 #'
@@ -63,9 +63,9 @@ cellwise <- R6Class("cellwise"
     , key     = NULL
   )
   , public = list(
-    initialize = function(key, verbose=TRUE, file=file.path(tempdir(),"cellwise.csv")){
+    initialize = function(key, verbose=TRUE, tempfile=file.path(tempdir(),"cellwise.csv")){
       if(missing(key)) stop("you must provide a key")
-      private$tmpfile = file
+      private$tmpfile = tempfile
       private$con = file(private$tmpfile, open="wt")
       private$n <- 0
       private$verbose <- verbose
