@@ -34,9 +34,6 @@ with the primary process of data analyses.
 ![](fig/datastep2.png)
 
 
-
-
-
 ### Installation
 
 Published version from CRAN
@@ -51,6 +48,8 @@ cd lumbjerjack
 make install
 ```
 
-
+----
+Copyright (2016) Mark van der Loo
+Licenced by [EUPL 1.2](https://eupl.eu/1.2/en/)
 
 
