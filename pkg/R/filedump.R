@@ -60,24 +60,24 @@ filedump <- R6Class("filedump"
       , dir = NULL
       , verbose = NULL
       , filename = NULL
-      , label=NULL
     )
   , public = list(
-    initialize = function(dir = file.path(tempdir(),"filedump")
-       , filename="%sstep%03d.csv", verbose = TRUE){
-      private$n <- 0
-      private$dir <- dir
-      if (!dir.exists(dir)){
-        dir.create(dir,recursive = TRUE)
-        if (verbose){
-          msgf("Created %s", normalizePath(dir))
+        label=NULL
+      , initialize = function(dir = file.path(tempdir(),"filedump")
+         , filename="%sstep%03d.csv", verbose = TRUE){
+          private$n <- 0
+          private$dir <- dir
+          if (!dir.exists(dir)){
+            dir.create(dir,recursive = TRUE)
+            if (verbose){
+              msgf("Created %s", normalizePath(dir))
+            }
+          }
+          private$verbose <- verbose
+          private$filename <- filename
         }
-      }
-      private$verbose <- verbose
-      private$filename <- filename
-    }
     , add = function(meta, input, output){
-        prefix <- if (is.null(private$label)) "" else paste0(private$label,"_")
+        prefix <- if (is.null(self$label)) "" else paste0(self$label,"_")
         outname <- file.path(private$dir, sprintf(private$filename, prefix, private$n))
         if (private$n == 0)
           write.csv(input, file=outname, row.names=FALSE)

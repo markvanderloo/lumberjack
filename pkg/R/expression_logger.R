@@ -47,10 +47,10 @@ expression_logger <- R6Class("expression_loggger"
       , expression = NULL
       , result = NULL
       , verbose=TRUE
-      , label=NULL
     )
   , public = list(
-     initialize = function(..., verbose=TRUE){
+        label=NULL
+      , initialize = function(..., verbose=TRUE){
         private$step       <- c()
         private$expression <- c()
         private$verbose    <- verbose
@@ -71,7 +71,7 @@ expression_logger <- R6Class("expression_loggger"
     , dump = function(file=NULL,...){
         if (is.null(file)){
           file <- "expression.csv"
-          if (!is.null(private$label) && private$label != "") file <- paste(private$label, file, sep="_")
+          if (!is.null(self$label) && self$label != "") file <- paste(self$label, file, sep="_")
         }
         d <- cbind(
               step       = private$step

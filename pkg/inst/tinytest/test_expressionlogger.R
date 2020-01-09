@@ -20,5 +20,6 @@ expect_equal(lg$mw[1], mean(women$weight))
 expect_equal(lg$mh[2], mean(2*women$height))
 expect_equal(lg$mw[2], mean(women$weight))
 
+expect_true("label" %in% ls(logger))
 
 

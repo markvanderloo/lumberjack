@@ -1,3 +1,6 @@
+version 1.2.0
+- bugfix: prefix label for file output was ignored since 1.1.2
+
 version 1.1.2
 - the 'file' argument in 'cellwise$new' is now called 'tempfile' to better reflect
   it's purpose.

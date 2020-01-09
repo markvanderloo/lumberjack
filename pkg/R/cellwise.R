@@ -59,11 +59,11 @@ cellwise <- R6Class("cellwise"
     , con     = NULL
     , n       = NULL 
     , verbose = NULL
-    , label   = NULL
     , key     = NULL
   )
   , public = list(
-    initialize = function(key, verbose=TRUE, tempfile=file.path(tempdir(),"cellwise.csv")){
+     label   = NULL
+   , initialize = function(key, verbose=TRUE, tempfile=file.path(tempdir(),"cellwise.csv")){
       if(missing(key)) stop("you must provide a key")
       private$tmpfile = tempfile
       private$con = file(private$tmpfile, open="wt")
@@ -105,7 +105,7 @@ cellwise <- R6Class("cellwise"
       private$con <- iclose(private$con)
       if (is.null(file)){ 
         file <- "cellwise.csv" 
-        if (!is.null(private$label) && private$label != "" ) file <- paste(private$label,file,sep="_")
+        if (!is.null(self$label) && self$label != "" ) file <- paste(self$label,file,sep="_")
       }
       file.copy(from=private$tmpfile, to=file, overwrite = TRUE)
       if (private$verbose){

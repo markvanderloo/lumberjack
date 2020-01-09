@@ -8,4 +8,6 @@ i2 <- dump_log(i2, verbose=TRUE)
 
 # this test crashes covr but it does pass.
 #expect_equal(length(logger$logdata()) , 3)
+expect_true("label" %in% ls(logger))
+
 

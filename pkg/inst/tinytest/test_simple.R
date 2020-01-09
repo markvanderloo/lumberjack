@@ -18,4 +18,5 @@ logger <- simple$new()
 iris %>>% start_log(logger) %>>% head() %>>% stop_log(dump=FALSE)
 expect_equal(nrow(logger$logdata()), 1L)
 
+expect_true("label" %in% ls(simple$new()))
 
