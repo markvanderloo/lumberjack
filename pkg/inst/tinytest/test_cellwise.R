@@ -27,7 +27,7 @@ expect_equal(nrow(lumberjack:::celldiff(d1,d2,"sl")),1)
 
 iris$id <- seq_len(nrow(iris))
 xx <- cellwise$new(key="id")
-iris %>>% start_log(xx) %>>% head(149L) %>>% stop_log()
+iris %>>% start_log(xx) %>>% head(149L) %>>% stop_log(dump=FALSE)
 d <- xx$logdata()
 expect_equal(nrow(d),ncol(iris)-1L)
 
