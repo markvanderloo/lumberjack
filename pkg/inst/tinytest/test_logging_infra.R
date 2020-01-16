@@ -3,7 +3,7 @@ library(lumberjack)
 ## Logging switches
 # switching on, switching off
 expect_false( is.null(get_log(start_log(1:3))) )
-expect_true(  is.null(get_log(stop_log(start_log(1:3)))) )
+expect_true(  is.null(get_log(stop_log(start_log(1:3), dump=FALSE))) )
 
 
 ## Logging does not depend on functins keeping attributes

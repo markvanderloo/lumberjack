@@ -16,7 +16,7 @@ logger <- cellwise$new(key="id")
 iris %L>% 
   start_log(logger) %L>%
   head() %L>%
-  stop_log()
+  stop_log(dump=FALSE)
 logger$logdata()
 
 

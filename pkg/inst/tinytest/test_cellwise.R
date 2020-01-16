@@ -27,7 +27,7 @@ expect_equal(nrow(lumberjack:::celldiff(d1,d2,"sl")),1)
 
 iris$id <- seq_len(nrow(iris))
 xx <- cellwise$new(key="id")
-iris %>>% start_log(xx) %>>% head(149L) %>>% stop_log()
+iris %>>% start_log(xx) %>>% head(149L) %>>% stop_log(dump=FALSE)
 d <- xx$logdata()
 expect_equal(nrow(d),ncol(iris)-1L)
 
@@ -36,5 +36,7 @@ d2 <- data.frame(id=c(1,1),x=1:2)
 
 logger <- cellwise$new(key="id")
 expect_warning(logger$add(meta=list(src="haha"),input=d1,output=d2))
+
+expect_true("label" %in% ls(logger))
 
 

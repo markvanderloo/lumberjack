@@ -44,13 +44,13 @@ simple <- R6Class("simple"
       n = NULL
       , store = NULL
       , verbose = NULL
-      , label = NULL
     )
   , public = list(
-    initialize = function( verbose = TRUE){
-      private$n <- 0
-      private$store <- new.env()
-      private$verbose <- verbose
+      label = NULL
+    , initialize = function( verbose = TRUE){
+        private$n <- 0
+        private$store <- new.env()
+        private$verbose <- verbose
     }
     , add = function(meta, input, output){
       private$n <- private$n + 1
@@ -66,7 +66,7 @@ simple <- R6Class("simple"
         log_df <- do.call(rbind,mget(ls(private$store), private$store))
         if (is.null(file)){ 
           file <- "simple.csv"
-          if (!is.null(private$label) && private$label != "" ) file <- paste(private$label,file,sep="_")
+          if (!is.null(self$label) && self$label != "" ) file <- paste(self$label,file,sep="_")
         }
         write.csv(log_df, file=file, row.names = FALSE,...)
         if (is.character(file) && private$verbose ){
