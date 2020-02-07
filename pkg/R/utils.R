@@ -37,7 +37,7 @@ pipe <- function(x, y, env=sys.parent()){
   e <- new.env(parent=env)
   e$. <- x
   
-  if ( class(y) == "call" ){
+  if ( inherits(y,"call") ){
     y1 <- replace(y, quote(.), quote(x))
     uses_dot <- !identical(y,y1)
 
