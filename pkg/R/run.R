@@ -170,7 +170,7 @@ run_file <- function(file, auto_dump=TRUE, envir=NULL){
 
   for ( i in seq_along(prog) ){
     eval(prog[[i]], envir=envir)
-    update_loggers(store, envir, prog[[i]], as.character(src[[i]]))
+    update_loggers(store, envir, prog[[i]], paste(as.character(src[[i]]),collapse="\n")   )
   }
   # dump everything not dumped yet.
   if (auto_dump) eval(envir$dump_log(), envir=envir)
