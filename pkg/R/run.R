@@ -90,10 +90,10 @@ dump_capture <- function(store){
   }
 }
 
-update_loggers <- function(store, envir, expr){
+update_loggers <- function(store, envir, expr, src){
   datasets <- ls(store)
   meta     <- list(expr = expr
-                 , src = paste(capture.output(print(expr)),collapse="\n"))
+                 , src  = src)
 
   for ( dataset in datasets ){
     old <- store[[dataset]]$data
@@ -165,11 +165,12 @@ run_file <- function(file, auto_dump=TRUE, envir=NULL){
   envir$start_log <- log_capture(store)
   envir$dump_log  <- dump_capture(store)
 
-  prog <- parse(fname)
- 
+  prog <- parse(fname, keep.source=TRUE)
+  src  <- attr(prog, "srcref")
+
   for ( i in seq_along(prog) ){
     eval(prog[[i]], envir=envir)
-    update_loggers(store, envir, prog[[i]])
+    update_loggers(store, envir, prog[[i]], as.character(src[[i]]))
   }
   # dump everything not dumped yet.
   if (auto_dump) eval(envir$dump_log(), envir=envir)
