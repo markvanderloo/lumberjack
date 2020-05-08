@@ -3,7 +3,7 @@
 
 #' The simple logger
 #' 
-#' Record for each expression a \code{POSIXct} timestamp and a logical
+#' Record for each expression a \code{POSIXct} timestamp and a \code{logical}
 #' indicating whether the tracked object has changed.
 #' 
 #' @section Creating a logger:

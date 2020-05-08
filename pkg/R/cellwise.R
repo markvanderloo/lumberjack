@@ -3,8 +3,8 @@
 
 #' The cellwise logger.
 #' 
-#' The cellwise logger registers the row, column, old, and new value
-#' of cells that changed, along with a step number, timestamp, and the
+#' The cellwise logger registers the row, column, old, and new value of cells
+#' that changed, along with a step number, timestamp, source reference, and the
 #' expression used to alter a dataset. 
 #' 
 #' @section Creating a logger:
