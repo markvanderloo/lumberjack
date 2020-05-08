@@ -6,7 +6,7 @@ expect_false( is.null(get_log(start_log(1:3))) )
 expect_true(  is.null(get_log(stop_log(start_log(1:3), dump=FALSE))) )
 
 
-## Logging does not depend on functins keeping attributes
+## Logging does not depend on functions keeping attributes
 naughty_function <- function(x){
   attr(x, lumberjack:::LOGNAME) <- NULL
   x

@@ -1,3 +1,10 @@
+version 1.1.5
+- The 'meta' argument that loggers receive now contains two new
+  elements: file and lines, referring to the file beign logged
+  and the line numbers where the expression was read. (thanks
+  to anonymous reviewer B for suggesting).
+- Fixed typos in documentation (thanks to anonymous reviewer B)
+
 version 1.1.4
 - When the $add() method of a loggger is called by lumberjack it now passes
   a 'meta' argument containing an 'src' string that is taken from the 'srcref'

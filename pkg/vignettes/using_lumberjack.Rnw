@@ -369,20 +369,26 @@ The main differences with `magrittr` are that
 \end{itemize}
 
 \section{Extending lumberjack}
-There are many ways to register changes in data.  That is why
-\pkg{lumberjack} is extensible with new loggers. 
+There are many ways to register changes in data. That is why \pkg{lumberjack}
+is extensible with new loggers. 
 
 \subsection{The lumberjack logging API}
 
-In short, a logger is a \emph{reference object} with the following \emph{mandatory} elements:
+In short, a logger is a \emph{reference object} with the following
+\emph{mandatory} elements:
 
 \begin{enumerate}
   \item A method \code{\$add(meta, input, output)}. This is a function that
   computes the difference between \code{input} and \code{output} and adds it to a
-  log. The \code{meta} argument is a \code{list} with two elements:
+  log. The \code{meta} argument is a \code{list} with the following elements:
   \begin{itemize}
     \item \code{expr} The expression used to turn \code{input} into \code{output}.
     \item \code{src} The same expression, but turned into a string.
+    \item \code{file} The name of the file that was run. This element is only
+    available when code is run from a script.
+    \item \code{lines} A named \code{integer} vector containing the first and last
+     line of the expression in the source file. This element is only available
+     when code is run from a script.
   \end{itemize}
   \item A method \code{\$dump(...)} this function writes the current logging info
   somewhere. Often this will be a file, but it really can be any place where R
