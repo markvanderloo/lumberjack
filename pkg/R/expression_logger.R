@@ -39,7 +39,7 @@
 #' 
 #' @family loggers
 #' @export
-expression_logger <- R6Class("expression_loggger"
+expression_logger <- R6Class("expression_logger"
   , private=list(
       step = NULL
       , s=0

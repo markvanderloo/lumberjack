@@ -3,7 +3,7 @@
 #' This package allows you to track changes in R objects by defining one or
 #' more loggers for each object. There are a number of built-in loggers and
 #' users (or package authors) can create their own loggers.  To get started
-#' please have a look at the \href{../doc/using_lumbjerjack.pdf}{using
+#' please have a look at the \href{../doc/using_lumberjack.pdf}{using
 #' lumberjack} vignette.
 #' 
 #' @author
@@ -76,7 +76,7 @@ has_log <- function(data){
 #' used by \code{dump} methods to create a unique file name for each
 #' object/logger combination.
 #'
-#' If \code{label} is not supplied, \code{start_log} attemtps to create a label
+#' If \code{label} is not supplied, \code{start_log} attempts to create a label
 #' from the name of the \code{data} variable. This probably fails when
 #' \code{data} is not a variable but an expression (like \code{read.csv...}). A
 #' label is also not created when data is passed via the lumberjack not-a-pipe
