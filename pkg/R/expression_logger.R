@@ -45,6 +45,7 @@ expression_logger <- R6Class("expression_logger"
       , s=0
       , expr = NULL
       , expression = NULL
+      , srcref = NULL
       , result = NULL
       , verbose=TRUE
     )
@@ -55,11 +56,13 @@ expression_logger <- R6Class("expression_logger"
         private$expression <- c()
         private$verbose    <- verbose
         private$expr <- as.list(substitute(list(...))[-1])
+        private$srcref <- c()
     }
     , add = function(meta, input, output){
         private$s <- private$s + 1
         private$step   <- append(private$step, private$s)
         private$expression <- append(private$expression, meta$src)
+        private$srcref <- append(private$srcref, get_srcref(meta))
         out <- lapply(private$expr, function(e) with(output, eval(e)))
         out <- do.call(data.frame, out)
         if(is.null(private$result)){
@@ -75,6 +78,7 @@ expression_logger <- R6Class("expression_logger"
         }
         d <- cbind(
               step       = private$step
+            , srcref     = private$srcref
             , expression = private$expression
             , private$result
             , stringsAsFactors = FALSE)

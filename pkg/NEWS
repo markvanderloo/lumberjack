@@ -1,9 +1,12 @@
 version 1.1.5
-- The 'meta' argument that loggers receive now contains two new
-  elements: file and lines, referring to the file beign logged
-  and the line numbers where the expression was read. (thanks
-  to anonymous reviewer B for suggesting).
-- Fixed typos in documentation (thanks to anonymous reviewer B)
+- Loggers now have access to the file name and line numbers of the
+  expression of which the action is being logged.
+- The output of loggers 'cellwise', 'simple' and 'expression_logger'
+  no contain a 'srcref' column, that gives file name and line number
+  of the expression being logged. (thanks to anonymous reviewer B for
+  suggesting)
+- Fixed typos in documentation (thanks to anonymous reviewer B).
+
 
 version 1.1.4
 - When the $add() method of a loggger is called by lumberjack it now passes

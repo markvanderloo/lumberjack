@@ -281,8 +281,10 @@ out <- women %L>%
   dump_log()
 head( read.csv("cellwise.csv"), 3)
 @
-The logging data consists of a step number, a timestamp, the expression that
-transformed the data, the record key, the variable, the old and the new value.
+The logging data consists of a step number, a timestamp, the location of the
+expression in the script (here: \code{NA}, since there is no script file), the
+expression that transformed the data, the record key, the variable, the old and
+the new value.
 
 
 The variable \code{out} contains the output of the calculation.

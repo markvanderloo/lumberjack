@@ -55,9 +55,11 @@ simple <- R6Class("simple"
     , add = function(meta, input, output){
       private$n <- private$n + 1
       logname <- sprintf("step%03d",private$n)
-        logdat <- data.frame(step = private$n, time = Sys.time()
-                   , expression  = meta$src
-                   , changed = !identical(input, output)
+        logdat <- data.frame(step = private$n
+                   , time             = Sys.time()
+                   , srcref           = get_srcref(meta)
+                   , expression       = meta$src
+                   , changed          = !identical(input, output)
                    , stringsAsFactors = FALSE) 
       private$store[[logname]] <- logdat
       

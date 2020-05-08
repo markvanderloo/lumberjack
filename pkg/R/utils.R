@@ -11,7 +11,12 @@ warnf <- function(fmt, ...){
   warning(sprintf(fmt, ...), call.=FALSE)
 }
 
-
+get_srcref <- function(meta){
+  if (is.null(meta$file)) return(NA_character_)
+  
+  sprintf("%s#%d-%d", meta$file, meta$line[1], meta$line[2])
+  
+}
 
 
 replace <- function(call, match, sub){

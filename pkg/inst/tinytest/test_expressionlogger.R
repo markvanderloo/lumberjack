@@ -22,4 +22,6 @@ expect_equal(lg$mw[2], mean(women$weight))
 
 expect_true("label" %in% ls(logger))
 
+expect_true(all(is.na(lg$srcref)))
+
 

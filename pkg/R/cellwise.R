@@ -74,6 +74,7 @@ cellwise <- R6Class("cellwise"
         data.frame(
           step=integer(0)
           , time=character(0)
+          , srcref=character(0)
           , expression=character(0)
           , key=character(0)
           , variable=character(0)
@@ -97,7 +98,9 @@ cellwise <- R6Class("cellwise"
       d$step <- private$n
       d$time <- ts
       d$expression <- meta$src
-      d <- d[c(5:7,1:4)]
+      d$srcref <- get_srcref(meta)
+      d <- d[c(5,6,8,7,1:4)]
+
       write.table(d,file = private$con
             , row.names=FALSE, col.names=FALSE, sep=",")
   }
