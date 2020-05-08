@@ -1,0 +1,7 @@
+\documentclass{article}
+\usepackage{pdfpages}
+%\VignetteIndexEntry{Monitoring changes in data with R with the lumberjack package}
+
+\begin{document}
+\includepdf[pages=-, fitpaper=true]{jss4008.pdf}
+\end{document}

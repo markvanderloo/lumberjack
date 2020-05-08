@@ -13,7 +13,7 @@ check: doc
 
 cran: doc
 	rm -rf *.tar.gz
-	R CMD build pkg
+	R CMD build --compact-vignettes="gs+qpdf" ./pkg
 	R CMD check --as-cran *.tar.gz
 
 install: doc
