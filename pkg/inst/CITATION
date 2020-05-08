@@ -1,0 +1,10 @@
+bibentry(bibtype = "article",
+ title = "Monitoring Data in R with the lumberjack package"
+ , author = c(person("MPJ", "van der Loo"))
+ , year = 2020
+ , journal = "Journal of Statistical Software"
+ , volume = ""
+ , issue  = ""
+ , url = "https://CRAN.R-project.org/package=lumberjack"
+ , pages = "Accepted for publication"
+)
