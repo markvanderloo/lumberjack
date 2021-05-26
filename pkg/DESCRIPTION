@@ -12,13 +12,13 @@ Description: A framework that allows for easy logging of changes in data.
     Main features: start tracking changes by adding a single line of code to 
     an existing script. Track changes in multiple datasets, using multiple 
     loggers. Add custom-built loggers or use loggers offered by other 
-    packages.
-Version: 1.2.0
+    packages. <doi:10.18637/jss.v098.i01>.
+Version: 1.2.1
 URL: https://github.com/markvanderloo/lumberjack
 BugReports: https://github.com/markvanderloo/lumberjack/issues
 Imports: utils, R6
 Depends: R (>= 3.4.0)
 Suggests: tinytest
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(r6=FALSE)
 Encoding: UTF-8

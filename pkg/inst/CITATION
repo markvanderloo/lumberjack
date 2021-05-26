@@ -1,10 +1,15 @@
-bibentry(bibtype = "article",
- title = "Monitoring Data in R with the lumberjack package"
- , author = c(person("MPJ", "van der Loo"))
- , year = 2020
- , journal = "Journal of Statistical Software"
- , volume = ""
- , issue  = ""
- , url = "https://CRAN.R-project.org/package=lumberjack"
- , pages = "Accepted for publication"
+bibentry(bibtype = "Article",
+  title        = "Monitoring Data in {R} with the {lumberjack} Package",
+  author       = person(given = c("Mark", "P.", "J."),
+                        family = "van der Loo",
+                        email = "m.vanderloo@cbs.nl"),
+  journal      = "Journal of Statistical Software",
+  year         = "2021",
+  volume       = "98",
+  number       = "1",
+  pages        = "1--13",
+  doi          = "10.18637/jss.v098.i01",
+
+  header       = "To cite lumberjack in publications use:"
 )
+
