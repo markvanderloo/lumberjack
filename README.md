@@ -20,6 +20,26 @@ analysis script.
 - [Talk at the eRum2018 meeting (Budapest)](https://www.youtube.com/watch?v=DNZs0CHBU4s)
 
 
+
+### Citing lumberjack
+
+Please cite the [JSS paper](https://www.jstatsoft.org/article/view/v098i01).
+
+```
+@article{loo2020monitoring,
+  title = {Monitoring Data in {R} with the {lumberjack} Package},
+  author = {Mark P. J. {van der Loo}},
+  journal = {Journal of Statistical Software},
+  year = {2021},
+  volume = {98},
+  number = {1},
+  pages = {1--13},
+  doi = {10.18637/jss.v098.i01},
+  url = {https://www.jstatsoft.org/article/view/v098i01}
+}
+```
+
+
 ### lumberjack philosophy
 
 Production scripts may contain many data transformations, aimed to clean,
