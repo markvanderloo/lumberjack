@@ -14,9 +14,12 @@ i2 <- head(women) %>>%
         identity() %>>% 
         dump_log(file=logfile)
 expect_true(file.exists(logfile))
+
+#If we dump to the same file we expect an overwrite.
 logger <- simple$new()
 iris %>>% start_log(logger) %>>% head() %>>% stop_log(dump=FALSE)
 expect_equal(nrow(logger$logdata()), 1L)
+expect_equal(nrow(read.csv(logfile)), 1L) 
 
 expect_true("label" %in% ls(simple$new()))
 
