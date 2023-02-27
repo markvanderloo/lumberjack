@@ -9,7 +9,7 @@ Authors@R: c(person("Mark", "van der Loo"
                   , role    = c("aut","cre")
                   , email   = "mark.vanderloo@gmail.com"
                   , comment = c(ORCID="0000-0002-9807-4686"))
-           , person("Floris", "de Ruijter", role = "ctb") )
+           , person("Floris", "Ruijter", role = "ctb") )
 Description: A framework that allows for easy logging of changes in data.
     Main features: start tracking changes by adding a single line of code to 
     an existing script. Track changes in multiple datasets, using multiple 
