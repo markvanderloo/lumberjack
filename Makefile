@@ -4,11 +4,11 @@ doc:
 
 pkg: doc
 	rm -f *.tar.gz
-	R CMD build pkg
+	R CMD build --compact-vignettes="gs+qpdf" pkg
 
 check: doc
 	rm -rf *.tar.gz
-	R CMD build pkg
+	R CMD build --compact-vignettes="gs+qpdf" pkg
 	R CMD check *.tar.gz
 
 cran: doc

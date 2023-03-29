@@ -6,6 +6,5 @@ out <- women %L>%
   head() %L>% 
   dump_log(file=logfile, stop=TRUE)
 
-
-read.csv(logfile,stringsAsFactors=FALSE) # Empty
+cat(readLines(logfile),"\n") # Empty file
 
