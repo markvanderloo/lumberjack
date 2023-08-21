@@ -11,6 +11,7 @@
 #'
 #'
 #' @docType package
+#' @aliases lumberjack-package
 #' @name lumberjack
 #' @importFrom R6 R6Class
 #' @importFrom utils capture.output
